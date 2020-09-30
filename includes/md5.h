@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ssl_md5.h                                       :+:      :+:    :+:   */
+/*   md5.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/07/14 20:33:47 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/09/30 19:05:26 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_SSL_MD5_H
-# define FT_SSL_MD5_H
+#ifndef MD5_H
+# define MD5_H
 
 # define L_ENDIAN 0
 # define B_ENDIAN 1
 
-# include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include "libft.h"
+# include "ft_ssl_types.h"
+# include "md5_utils.h"
+# include "md5_types.h"
 
 void*		input;
 uint64_t	saved_length;
 uint8_t*	end;
 
-uint32_t	a;
-uint32_t	b;
-uint32_t	c;
-uint32_t	d;
-uint32_t	block[16];
+
+uint32_t	g_block[16];
 
 const uint32_t	t[64] = {
     0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee, 0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
@@ -49,5 +48,10 @@ const uint32_t	s[64] = {
 	4, 11, 16, 23,  4, 11, 16, 23,  4, 11, 16, 23,  4, 11, 16, 23,
 	6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21
 };
+
+
+int	ft_md5(t_data *data);
+
+
 
 #endif

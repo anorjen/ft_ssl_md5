@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ssl_md5.c                                       :+:      :+:    :+:   */
+/*   md5.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/07/14 20:37:55 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/09/30 19:18:13 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl_md5.h"
+#include "md5.h"
 
 int			endian(void)
 {
@@ -58,17 +58,21 @@ void		append_length(void)
 	end += 8;
 }
 
-void		init_buffer()
+t_md5		*md5_init(void)
 {
+	t_md5	*e;
+
 	uint8_t _a[4] = { 0x01, 0x23, 0x45, 0x67 };
 	uint8_t _b[4] = { 0x89, 0xab, 0xcd, 0xef };
 	uint8_t _c[4] = { 0xfe, 0xdc, 0xba, 0x98 };
 	uint8_t _d[4] = { 0x76, 0x54, 0x32, 0x10 };
 
-	a = *(uint32_t*)(&_a);
-	b = *(uint32_t*)(&_b);
-	c = *(uint32_t*)(&_c);
-	d = *(uint32_t*)(&_d);
+	e = (t_md5 *)malloc(sizeof(t_md5));
+	e->a = *(uint32_t*)(&_a);
+	e->b = *(uint32_t*)(&_b);
+	e->c = *(uint32_t*)(&_c);
+	e->d = *(uint32_t*)(&_d);
+	return (e);
 }
 
 uint32_t	rotate_left(uint32_t x, uint32_t s)
@@ -76,88 +80,68 @@ uint32_t	rotate_left(uint32_t x, uint32_t s)
 	return ((x << s) | (x >> (32 - s)));
 }
 
-void		process_block(uint8_t* adress)
+void		process_block(t_md5 *e)
 {
-    uint32_t	aa;
-	uint32_t	bb;
-	uint32_t	cc;
-	uint32_t	dd;
-	ssize_t	i;
-
-	memcpy(&block, (void*)(adress), 64);
-	aa = a;
-	bb = b;
-	cc = c;
-	dd = d;
+	ssize_t		i;
+	t_md5_utils	util;
 
 	i = 0;
 	while (i < 64)
 	{
-		uint32_t	F;
-		uint8_t		g;
-
-		F = 0;
-		g = 0;
 		if (i >= 0 && i < 16)
-		{
-			F = (bb & cc) | (~bb & dd);
-			g = i;
-		}
+			util = func_f(e->bb, e->cc, e->dd, i);
 		else if (i >= 16 && i < 32)
-		{
-			F = (dd & bb) | (~dd & cc);
-			g = (5 * i + 1) % 16;
-		}
+			util = func_g(e->bb, e->cc, e->dd, i);
 		else if (i >= 32 && i < 48)
-		{
-			F = bb ^ cc ^ dd;
-			g = (3 * i + 5) % 16;
-		}
+			util = func_h(e->bb, e->cc, e->dd, i);
 		else if (i >= 48 && i < 64)
-		{
-			F = cc ^ (bb | ~dd);
-			g = (7 * i) % 16;
-		}
-		F = F + aa + t[i] + block[g];
-		aa = dd;
-		dd = cc;
-		cc = bb;
-		bb = bb + rotate_left(F, s[i]);
+			util = func_i(e->bb, e->cc, e->dd, i);
+		util.f = util.f + e->aa + t[i] + g_block[util.g];
+		e->aa = e->dd;
+		e->dd = e->cc;
+		e->cc = e->bb;
+		e->bb += rotate_left(util.f, s[i]);
 		++i;
 	}
-
-	a += aa;
-	b += bb;
-	c += cc;
-	d += dd;
 }
 
-void		process(void)
+void		process(t_md5 *e)
 {
 	uint8_t*	temp;
 
 	temp = (uint8_t*)(input);
 	while (temp != end)
 	{
-		process_block(temp);
+		memcpy(&g_block, (void*)(temp), 64);
+		e->aa = e->a;
+		e->bb = e->b;
+		e->cc = e->c;
+		e->dd = e->d;
+		process_block(e);
+		e->a += e->aa;
+		e->b += e->bb;
+		e->c += e->cc;
+		e->d += e->dd;
 		temp += 64;
 	}
 }
 
-uint8_t		*finish()
+uint8_t		*finish(t_md5 *e)
 {
     uint8_t	*hash;
 
 	hash = (uint8_t*)malloc(16);
-    memcpy(&hash[0], &a, 4);
-    memcpy(&hash[4], &b, 4);
-    memcpy(&hash[8], &c, 4);
-    memcpy(&hash[12], &d, 4);
+    memcpy(&hash[0], &(e->a), 4);
+    memcpy(&hash[4], &(e->b), 4);
+    memcpy(&hash[8], &(e->c), 4);
+    memcpy(&hash[12], &(e->d), 4);
+	free(e);
     return (hash);
 }
 
 uint8_t		*MD5(void* original_input, uint64_t size)
 {
+	t_md5	*e;
 	uint8_t	*place;
 
 	place = (uint8_t*)malloc(size + 100);
@@ -166,13 +150,13 @@ uint8_t		*MD5(void* original_input, uint64_t size)
 	saved_length = size;
 	append_padding_bits();
 	append_length();
-	init_buffer();
-	process();
+	e = md5_init();
+	process(e);
 	free(place);
-	return (finish());
+	return (finish(e));
 }
 
-char		*md5hash_to_string(uint8_t *hash) {
+char		*md5_to_string(uint8_t *hash) {
 	char	*hex_char = "0123456789abcdef";
 	char	*ret;
 	size_t	j;
@@ -187,19 +171,16 @@ char		*md5hash_to_string(uint8_t *hash) {
 	return (ret);
 }
 
-int			main()
+t_md5		*md5_calc()
 {
-	char	*s;
-	char	*hash;
+	
+}
 
-	while (1)
-	{
-		write(1, "Input: ", 7);
-		get_next_line(0, &s);
-		write(1, "Hash: ", 7);
-		hash = md5hash_to_string(MD5(&s[0], ft_strlen(s)));
-		write(1, hash, ft_strlen(hash));
-		write(1, "\n", 1);
-	}
+int			ft_md5(t_data *data)
+{
+	uint8_t	*hash;
+
+	hash = md5_calc(data);
+	data->hash = md5_to_string(hash);
 	return (0);
 }

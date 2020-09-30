@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:40:10 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/13 15:55:03 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2020/09/30 15:52:17 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdarg.h>
 # include <float.h>
 # include <limits.h>
-# include "libft/libft.h"
+# include "libft.h"
 
 enum { FAIL = -1, SUCCESS = 0 };
 

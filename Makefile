@@ -6,11 +6,11 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/07/14 13:48:29 by anorjen          ###   ########.fr        #
+#    Updated: 2020/09/30 16:24:10 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_ssl_md5
+NAME = ft_ssl
 
 CC = clang
 FLAGS = -Wall -Werror -Wextra -g
@@ -18,15 +18,18 @@ LIBRARIES = -lft -L$(LIBFT_DIRECTORY)
 INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS)
 
 LIBFT = $(LIBFT_DIRECTORY)libft.a
-LIBFT_DIRECTORY = ./lib/libft/
-LIBFT_HEADERS = $(LIBFT_DIRECTORY)
+LIBFT_DIRECTORY = ./libft/
+LIBFT_HEADERS = $(LIBFT_DIRECTORY)/includes
 
-HEADERS_LIST = ft_ssl_md5.h
+HEADERS_LIST = 	md5.h \
+				md5_utils.h \
+				md5_types.h
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = ./srcs/
-SOURCES_LIST = 	ft_ssl_md5.c
+SOURCES_LIST = 	md5.c \
+				md5_utils.c
 
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
@@ -49,6 +52,7 @@ $(NAME): $(LIBFT) $(OBJECTS_DIRECTORY) $(OBJECTS) $(OBJECTS)
 	@$(CC) $(FLAGS) -o $(NAME)  $(OBJECTS) $(LIBRARIES) $(INCLUDES)
 	@echo "\n$(NAME): $(GREEN)$(NAME) object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
+	@./test.sh
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
