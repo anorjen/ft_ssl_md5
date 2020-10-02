@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:56 by anorjen           #+#    #+#             */
-/*   Updated: 2020/09/30 19:06:16 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/01 17:28:52 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 # include "ft_dlist.h"
 # include "ft_ssl_types.h"
 # include "md5.h"
-
-# define STDIN 1
-# define STRING 2
-# define FILE 3
 
 // typedef struct	s_ssl
 // {
@@ -50,27 +46,15 @@ typedef struct	s_hash
 	t_function	function;
 }				t_hash;
 
-t_hash	g_hashs[2] = {
-	{"md5", ft_md5},
-	{"null", NULL}
-};
+extern const t_hash	g_hashs[];
 
-t_ssl	*g_ssl;
+
+
 
 /*
-** ft_error.c
+** ft_print.c
 */
 
-void	ft_error(char *message);
-void	ft_fatal_error(char *message);
-void	usage(void);
-void	ft_clean(void);
-
-/*
-** ft_data.c
-*/
-
-t_data	*new_data(char *name, int type);
-void	del_data(t_data *data);
+void	ft_print(t_dlist *datalist);
 
 #endif

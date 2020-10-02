@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 15:34:49 by anorjen           #+#    #+#             */
-/*   Updated: 2020/09/28 15:40:03 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/01 12:17:13 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_md5
 	uint32_t	bb;
 	uint32_t	cc;
 	uint32_t	dd;
+	uint32_t	block[16];
 }				t_md5;
 
 typedef struct	s_md5_utils

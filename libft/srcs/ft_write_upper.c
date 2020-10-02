@@ -1,43 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_data.c                                          :+:      :+:    :+:   */
+/*   ft_write_upper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/30 18:51:09 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 18:21:46 by anorjen          ###   ########.fr       */
+/*   Created: 2020/10/02 17:33:30 by anorjen           #+#    #+#             */
+/*   Updated: 2020/10/02 17:47:50 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl_types.h"
+#include "libft.h"
 
-t_data	*new_data(char *name, int type)
+void	ft_write_upper(int fd, char *str, size_t size)
 {
-	t_data	*data;
+	size_t	i;
+	char	*str_upper;
 
-	data = (t_data*)malloc(sizeof(t_data));
-	if (data)
+	if((str_upper = ft_strnew(size)) != NULL)
 	{
-		data->name = name;
-		data->type = type;
-		data->error = NULL;
-		data->state = 0;
-		data->length = 0;
-		data->fd = -1;
-		data->hash = NULL;
+		i = -1;
+		while (++i < size)
+		{
+			str_upper[i] = ft_toupper(str[i]);
+		}
+		write(fd, str_upper, size);
+		free(str_upper);
 	}
-	return (data);
-}
-
-void	del_data(void *data)
-{
-	t_data	*d;
-
-	if (!data)
-		return ;
-	d = (t_data*)data;
-	if (d->hash)
-		free(d->hash);
-	free(d);
 }

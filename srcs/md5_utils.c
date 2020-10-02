@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 14:29:03 by anorjen           #+#    #+#             */
-/*   Updated: 2020/09/28 15:37:21 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/02 18:21:27 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_md5_utils	func_g(uint32_t x, uint32_t y, uint32_t z, int i)
 	t_md5_utils	util;
 
 	util.f = ((x & z) | (~z & y));
-	util.g = (5 * i + 1) % 16;;
+	util.g = (5 * i + 1) % 16;
 	return (util);
 }
 

@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 12:52:55 by agottlie          #+#    #+#             */
-/*   Updated: 2020/07/14 13:24:01 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/02 17:35:02 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ void				ft_make_lst(t_list **head, size_t len);
 void				colorize_str(char *str, int mod);
 void				*ft_realloc(void *ptr, size_t original_length,
 		size_t new_length);
+void				ft_write_upper(int fd, char *str, size_t size);
 
 #endif

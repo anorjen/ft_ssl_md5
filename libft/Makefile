@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/09/30 16:20:26 by anorjen          ###   ########.fr        #
+#    Updated: 2020/10/02 17:40:36 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,20 +24,20 @@ HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = ./srcs/
-SOURCES_LIST = 	ft_atoi.c		ft_bzero.c			ft_colorize_str.c	ft_isalnum.c	ft_isalpha.c \
-				ft_isascii.c	ft_isdigit.c		ft_isprint.c		ft_itoa.c		ft_lstadd.c \
-				ft_lstchange.c	ft_lstdel.c			ft_lstdelone.c		ft_lstiter.c	ft_lstjoin.c \
-				ft_lstmap.c		ft_lstnew.c			ft_lstprint.c		ft_make_lst.c	ft_memalloc.c \
-				ft_memccpy.c	ft_memchr.c			ft_memcmp.c			ft_memcpy.c		ft_memdel.c \
-				ft_memmove.c	ft_memset.c			ft_putchar.c		ft_putchar_fd.c	ft_putendl.c \
-				ft_putendl_fd.c	ft_putnbr.c			ft_putnbr_fd.c		ft_putstr.c		ft_putstr_fd.c \
-				ft_realloc.c	ft_strcat.c			ft_strchr.c			ft_strclr.c		ft_strcmp.c \
-				ft_strcpy.c		ft_strdel.c			ft_strdup.c			ft_strequ.c		ft_striter.c \
-				ft_striteri.c	ft_strjoin.c		ft_strlcat.c		ft_strlen.c		ft_strmap.c \
-				ft_strmapi.c	ft_strncat.c		ft_strncmp.c		ft_strncpy.c	ft_strnequ.c \
-				ft_strnew.c		ft_strnstr.c		ft_strrchr.c		ft_strsplit.c	ft_strstr.c \
-				ft_strsub.c		ft_strsubi.c		ft_strtrim.c		ft_strtrim_c.c	ft_tolower.c \
-				ft_toupper.c	ft_word_count_c.c	get_next_line.c
+SOURCES_LIST = 	ft_atoi.c		ft_bzero.c			ft_colorize_str.c	ft_isalnum.c		ft_isalpha.c \
+				ft_isascii.c	ft_isdigit.c		ft_isprint.c		ft_itoa.c			ft_lstadd.c \
+				ft_lstchange.c	ft_lstdel.c			ft_lstdelone.c		ft_lstiter.c		ft_lstjoin.c \
+				ft_lstmap.c		ft_lstnew.c			ft_lstprint.c		ft_make_lst.c		ft_memalloc.c \
+				ft_memccpy.c	ft_memchr.c			ft_memcmp.c			ft_memcpy.c			ft_memdel.c \
+				ft_memmove.c	ft_memset.c			ft_putchar.c		ft_putchar_fd.c		ft_putendl.c \
+				ft_putendl_fd.c	ft_putnbr.c			ft_putnbr_fd.c		ft_putstr.c			ft_putstr_fd.c \
+				ft_realloc.c	ft_strcat.c			ft_strchr.c			ft_strclr.c			ft_strcmp.c \
+				ft_strcpy.c		ft_strdel.c			ft_strdup.c			ft_strequ.c			ft_striter.c \
+				ft_striteri.c	ft_strjoin.c		ft_strlcat.c		ft_strlen.c			ft_strmap.c \
+				ft_strmapi.c	ft_strncat.c		ft_strncmp.c		ft_strncpy.c		ft_strnequ.c \
+				ft_strnew.c		ft_strnstr.c		ft_strrchr.c		ft_strsplit.c		ft_strstr.c \
+				ft_strsub.c		ft_strsubi.c		ft_strtrim.c		ft_strtrim_c.c		ft_tolower.c \
+				ft_toupper.c	ft_word_count_c.c	get_next_line.c		ft_write_upper.c
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 OBJECTS_DIRECTORY = objects/
@@ -46,8 +46,8 @@ OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 
 
 DLIST_SRC_DIRECTORY = ./srcs/dlist/
-D_LIST_SRC_LIST = 	ft_dlist_addback.c	ft_dlist_addbegin.c	ft_dlist_add.c	ft_dlist_del.c	ft_dlist_delone.c \
-					ft_dlist_new.c		ft_dlist_rewind.c	ft_dlist_size.c
+DLIST_SRC_LIST = 	ft_dlist_addback.c	ft_dlist_addbegin.c	ft_dlist_add.c	ft_dlist_del.c	ft_dlist_delone.c \
+					ft_dlist_new.c		ft_dlist_rewind.c	ft_dlist_size.c	ft_dlist_new_elem.c
 
 DLIST_SOURCES = $(addprefix $(DLIST_SRC_DIRECTORY), $(DLIST_SRC_LIST))
 DLIST_OBJ_DIRECTORY = objects/dlist/

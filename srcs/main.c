@@ -6,13 +6,18 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/09/30 18:58:19 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/02 18:24:05 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int	read_flags(int ac, char	*av)
+const t_hash	g_hashs[2] = {
+	{"md5", ft_md5},
+	{NULL, NULL}
+};
+
+static int		read_flags(int ac, char **av)
 {
 	int	i;
 
@@ -33,62 +38,67 @@ int	read_flags(int ac, char	*av)
 	return (i);
 }
 
-void	read_args(int ac, char	*av)
+static void		read_args(int ac, char **av)
 {
 	int		i;
-	t_list	*datalist;
+	t_dlist	*datalist;
 
 	datalist = NULL;
+	if ((g_ssl = (t_ssl*)malloc(sizeof(t_ssl))) == NULL)
+		ft_fatal_error("Malloc ERROR!");
 	g_ssl->hash_type = av[1];
 	i = read_flags(ac, av);
-	if (i == ac || g_ssl->p_flag)
-		ft_dlist_addback(datalist, new_data("stdin", STDIN));
+	if ((i == ac && !(g_ssl->s_flag)) || g_ssl->p_flag)
+		ft_dlist_addback(&datalist, ft_dlist_new_elem(
+			new_data("stdin", (t_input)IN_STDIN), sizeof(t_data), 1));
 	if (g_ssl->s_flag && i < ac)
 	{
-		ft_dlist_addback(datalist, new_data(av[i], STRING));
+		ft_dlist_addback(&datalist, ft_dlist_new_elem(
+			new_data(av[i], (t_input)IN_STRING), sizeof(t_data), 1));
 		++i;
 	}
-	else
-		ft_error("String not found!");
+	else if (g_ssl->s_flag && i == ac)
+		ft_fatal_error("String not found!");
 	i -= 1;
 	while (++i < ac)
-		ft_dlist_addback(datalist, new_data(av[i], FILE));
+		ft_dlist_addback(&datalist, ft_dlist_new_elem(
+			new_data(av[i], (t_input)IN_FILE), sizeof(t_data), 1));
 	g_ssl->datalist = datalist;
 }
 
-void	input_handler(void)
+static void		input_handler(void)
 {
 	int			i;
-	t_function	*func;
+	t_function	func;
 	t_dlist		*input;
 
 	func = NULL;
 	i = -1;
 	while (g_hashs[++i].name)
 	{
-		if (ft_strcmp(g_hashs[i].name, g_ssl->hash_type))
+		if (ft_strcmp(g_hashs[i].name, g_ssl->hash_type) == 0)
 		{
-			func = &(g_hashs[i].function);
+			func = g_hashs[i].function;
 			break ;
 		}
 	}
 	if (!func)
-		ft_error("Hash type not supported!");
+		ft_fatal_error("Hash type not supported!");
 	input = g_ssl->datalist;
 	while (input)
 	{
-		(*func)(input);
+		(func)((t_data*)(input->content));
 		input = input->next;
 	}
 }
 
-int		main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	if (ac < 2)
 		usage();
 	read_args(ac, av);
 	input_handler();
-	printer(g_ssl->datalist);
+	ft_print(g_ssl->datalist);
 	ft_clean();
 	return (0);
 }
