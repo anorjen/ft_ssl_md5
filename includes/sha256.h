@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 14:33:09 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 14:39:10 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,7 @@ typedef struct	s_sha256
 	uint32_t	block[SHA256_BLOCK_SIZE / 4];
 }				t_sha256;
 
-typedef struct	s_sha256_utils
-{
-	uint32_t	f;
-	uint8_t		g;
-}				t_sha256_utils;
-
-extern const uint32_t	t[];
-extern const uint32_t	s[];
+extern const uint32_t	g_k[];
 
 int				sha256(t_data *data);
 
