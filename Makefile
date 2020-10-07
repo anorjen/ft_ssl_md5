@@ -6,11 +6,11 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/07/14 13:48:29 by anorjen          ###   ########.fr        #
+#    Updated: 2020/10/07 19:45:46 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_ssl_md5
+NAME = ft_ssl
 
 CC = clang
 FLAGS = -Wall -Werror -Wextra -g
@@ -18,16 +18,28 @@ LIBRARIES = -lft -L$(LIBFT_DIRECTORY)
 INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS)
 
 LIBFT = $(LIBFT_DIRECTORY)libft.a
-LIBFT_DIRECTORY = ./lib/libft/
-LIBFT_HEADERS = $(LIBFT_DIRECTORY)
+LIBFT_DIRECTORY = ./libft/
+LIBFT_HEADERS = $(LIBFT_DIRECTORY)/includes
 
-HEADERS_LIST = ft_ssl_md5.h
+HEADERS_LIST = 	common.h \
+				main.h \
+				md5.h \
+				sha256.h
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = ./srcs/
-SOURCES_LIST = 	ft_ssl_md5.c
-
+SOURCES_LIST = 	ft_data.c \
+				ft_error.c \
+				ft_print.c \
+				main.c \
+				read_data.c \
+				utils.c \
+				common.c \
+				md5.c \
+				md5_utils.c \
+				sha256.c \
+				sha256_utils.c
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
@@ -45,10 +57,12 @@ RESET = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJECTS_DIRECTORY) $(OBJECTS) $(OBJECTS)
+$(NAME): $(LIBFT) $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@$(CC) $(FLAGS) -o $(NAME)  $(OBJECTS) $(LIBRARIES) $(INCLUDES)
 	@echo "\n$(NAME): $(GREEN)$(NAME) object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
+	@if [ -e fail_test_* ]; then rm fail_test_*; fi
+	@./test.sh
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)

@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_del_value.c                                 :+:      :+:    :+:   */
+/*   ft_dlist_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwalder- <rwalder-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgorczan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/30 16:07:55 by rwalder-          #+#    #+#             */
-/*   Updated: 2019/05/10 13:26:26 by rwalder-         ###   ########.fr       */
+/*   Created: 2019/10/27 21:51:51 by mgorczan          #+#    #+#             */
+/*   Updated: 2019/10/27 21:51:52 by mgorczan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector_lib.h"
+#include "ft_dlist.h"
 
-int		vector_del_value(t_vector_lib *vector, TYPE elem, unsigned int begin,
-		unsigned int end)
+size_t		ft_dlist_size(t_dlist *lst)
 {
-	long index;
+	size_t	size;
 
-	if ((index = vector_search(vector, elem, begin, end)) == -1)
-		return (0);
-	return (vector_del(vector, index));
+	while (lst->prev != NULL)
+		lst = lst->prev;
+	size = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		size++;
+	}
+	return (size);
 }

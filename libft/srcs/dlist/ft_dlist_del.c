@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_deinit.c                                     :+:      :+:    :+:   */
+/*   ft_dlist_del.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwalder- <rwalder-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/03 15:22:36 by rwalder-          #+#    #+#             */
-/*   Updated: 2019/05/10 13:26:26 by rwalder-         ###   ########.fr       */
+/*   Created: 2019/10/27 21:51:33 by mgorczan          #+#    #+#             */
+/*   Updated: 2020/09/30 18:38:16 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector_lib.h"
+#include "ft_dlist.h"
 
-void	vector_deinit(t_vector_lib **vector)
+void	ft_dlist_del(t_dlist **dlst,  void (*del)(void *))
 {
-	if (vector == NULL || *vector == NULL || (*vector)->arr == NULL)
-		return ;
-	free((*vector)->arr);
-	(*vector)->arr = NULL;
-	free(*vector);
-	*vector = NULL;
+	t_dlist	*tmp;
+
+	*dlst = ft_dlist_rewind(*dlst);
+	while (*dlst)
+	{
+		tmp = (*dlst)->next;
+		del((*dlst)->content);
+		free(*dlst);
+		*dlst = tmp;
+	}
+	*dlst = NULL;
 }

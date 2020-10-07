@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_add.c                                       :+:      :+:    :+:   */
+/*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/29 16:46:08 by rwalder-          #+#    #+#             */
-/*   Updated: 2020/02/03 15:14:38 by anorjen          ###   ########.fr       */
+/*   Created: 2020/08/10 19:05:56 by anorjen           #+#    #+#             */
+/*   Updated: 2020/10/06 14:14:35 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector_lib.h"
+#ifndef MAIN_H
+# define MAIN_H
 
-int		vector_add(t_vector_lib *vector, TYPE elem)
+# include <stdlib.h>
+
+# include "libft.h"
+# include "ft_dlist.h"
+# include "common.h"
+
+# include "md5.h"
+# include "sha256.h"
+
+typedef int	(*t_function)(t_data *data);
+
+typedef struct	s_hash
 {
-	if (vector == NULL || vector->arr == NULL)
-		return (0);
-	(vector)->arr[vector->size++] = elem;
-	if ((vector->size % STACK_STEP) == 0)
-		return (vector_resize(vector, vector->size + STACK_STEP));
-	return (1);
-}
+	char		*name;
+	t_function	function;
+}				t_hash;
+
+extern const t_hash	g_hashs[];
+
+/*
+** ft_print.c
+*/
+
+void	ft_print(t_dlist *datalist);
+
+#endif
