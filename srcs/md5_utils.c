@@ -6,11 +6,11 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 14:29:03 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 18:21:27 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/06 12:45:14 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "md5_utils.h"
+#include "md5.h"
 
 t_md5_utils	func_f(uint32_t x, uint32_t y, uint32_t z, int i)
 {

@@ -6,11 +6,11 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 12:50:29 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 18:22:26 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/06 12:52:07 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl_types.h"
+#include "common.h"
 
 static ssize_t	read_stdin(t_data *data, uint8_t *buf, ssize_t size)
 {

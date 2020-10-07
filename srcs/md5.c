@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 18:53:26 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/06 14:27:01 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,14 @@ const uint32_t	g_s[64] = {
 	6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21
 };
 
-int				endian(void)
-{
-	uint32_t	i;
-	uint8_t		*p;
-
-	i = 1;
-	p = (uint8_t*)&i;
-	if (*p == 1)
-		return (L_ENDIAN);
-	else
-		return (B_ENDIAN);
-}
-
-void			*append_padding_bits(void *input, uint64_t size)
+static void			*append_padding_bits(void *input, uint64_t size)
 {
 	uint8_t	*end;
 
 	end = (uint8_t*)(input) + size;
 	*end = 0x80;
 	++end;
-	while ((end - (uint8_t*)(input)) % 64 != 56)
+	while ((end - (uint8_t*)(input)) % MD5_BLOCK_SIZE != (MD5_BLOCK_SIZE - 8))
 	{
 		*end = 0x00;
 		++end;
@@ -61,16 +48,7 @@ void			*append_padding_bits(void *input, uint64_t size)
 	return (end);
 }
 
-void			ft_swap(uint8_t *one, uint8_t *two)
-{
-	uint8_t	buf;
-
-	buf = *one;
-	*one = *two;
-	*two = buf;
-}
-
-void			*append_length(void *end, uint64_t size)
+static void			*append_length(void *end, uint64_t size)
 {
 	uint64_t length;
 
@@ -87,7 +65,7 @@ void			*append_length(void *end, uint64_t size)
 	return (end);
 }
 
-t_md5			*md5_init(void)
+static t_md5			*md5_init(void)
 {
 	t_md5	*e;
 
@@ -109,12 +87,7 @@ t_md5			*md5_init(void)
 	return (e);
 }
 
-uint32_t		rotate_left(uint32_t x, uint32_t s)
-{
-	return ((x << s) | (x >> (32 - s)));
-}
-
-void			process_block(t_md5 *e)
+static void			process_block(t_md5 *e)
 {
 	ssize_t		i;
 	t_md5_utils	util;
@@ -139,7 +112,7 @@ void			process_block(t_md5 *e)
 	}
 }
 
-void			process(t_md5 *e, void *input, uint64_t size)
+static void			process(t_md5 *e, void *input, uint64_t size)
 {
 	uint8_t	*temp;
 	uint8_t	*end;
@@ -162,7 +135,7 @@ void			process(t_md5 *e, void *input, uint64_t size)
 	}
 }
 
-uint8_t			*finish(t_md5 *e)
+static uint8_t			*finish(t_md5 *e)
 {
 	uint8_t	*hash;
 
@@ -175,7 +148,7 @@ uint8_t			*finish(t_md5 *e)
 	return (hash);
 }
 
-char			*md5_to_string(uint8_t *hash)
+static char			*md5_to_string(uint8_t *hash)
 {
 	char	*hex_char;
 	char	*ret;
@@ -195,7 +168,7 @@ char			*md5_to_string(uint8_t *hash)
 	return (ret);
 }
 
-uint8_t			*md5_calc(t_data *data)
+static uint8_t			*md5_calc(t_data *data)
 {
 	t_md5		*e;
 	ssize_t		ret;
@@ -204,10 +177,10 @@ uint8_t			*md5_calc(t_data *data)
 	uint8_t		*end;
 
 	e = md5_init();
-	while ((ret = read_data(data, buf, MD5_BLOCK_SIZE)) == 64)
+	while ((ret = read_data(data, buf, MD5_BLOCK_SIZE)) == MD5_BLOCK_SIZE)
 	{
-		process(e, buf, 64);
-		data->length += 64;
+		process(e, buf, MD5_BLOCK_SIZE);
+		data->length += MD5_BLOCK_SIZE;
 	}
 	if (ret == -1)
 		return (NULL);
@@ -221,7 +194,7 @@ uint8_t			*md5_calc(t_data *data)
 	return (finish(e));
 }
 
-int				ft_md5(t_data *data)
+int				md5(t_data *data)
 {
 	uint8_t	*hash;
 

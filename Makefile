@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/10/01 17:30:56 by anorjen          ###   ########.fr        #
+#    Updated: 2020/10/06 14:25:55 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,10 @@ LIBFT = $(LIBFT_DIRECTORY)libft.a
 LIBFT_DIRECTORY = ./libft/
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)/includes
 
-HEADERS_LIST = 	ft_ssl_types.h \
+HEADERS_LIST = 	common.h \
 				main.h \
 				md5.h \
-				md5_utils.h \
-				md5_types.h
+				sha256.h
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
@@ -35,8 +34,10 @@ SOURCES_LIST = 	ft_data.c \
 				ft_print.c \
 				main.c \
 				read_data.c \
+				utils.c \
 				md5.c \
-				md5_utils.c
+				md5_utils.c \
+				sha256.c
 
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))

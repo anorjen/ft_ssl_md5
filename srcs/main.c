@@ -6,20 +6,21 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 18:24:05 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/06 18:43:28 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-const t_hash	g_hashs[2] = {
-	{"md5", ft_md5},
+const t_hash	g_hashs[3] = {
+	{"md5", md5},
+	{"sha256", sha256},
 	{NULL, NULL}
 };
 
 static int		read_flags(int ac, char **av)
 {
-	int	i;
+	int		i;
 
 	i = 1;
 	while (++i < ac)
@@ -31,9 +32,17 @@ static int		read_flags(int ac, char **av)
 		else if (ft_strcmp(av[i], "-q") == 0)
 			g_ssl->q_flag = 1;
 		else if (ft_strcmp(av[i], "-s") == 0)
+		{
 			g_ssl->s_flag = 1;
+			return (++i);
+		}
 		else
+		{
+			if (av[i][0] == '-')
+				ft_fatal_error(
+					ft_strjoin("Unrecognized flag ", &(av[i][1])), 1);
 			return (i);
+		}
 	}
 	return (i);
 }
@@ -45,7 +54,7 @@ static void		read_args(int ac, char **av)
 
 	datalist = NULL;
 	if ((g_ssl = (t_ssl*)malloc(sizeof(t_ssl))) == NULL)
-		ft_fatal_error("Malloc ERROR!");
+		ft_fatal_error("Malloc ERROR!", 0);
 	g_ssl->hash_type = av[1];
 	i = read_flags(ac, av);
 	if ((i == ac && !(g_ssl->s_flag)) || g_ssl->p_flag)
@@ -58,7 +67,7 @@ static void		read_args(int ac, char **av)
 		++i;
 	}
 	else if (g_ssl->s_flag && i == ac)
-		ft_fatal_error("String not found!");
+		ft_fatal_error("String not found!", 0);
 	i -= 1;
 	while (++i < ac)
 		ft_dlist_addback(&datalist, ft_dlist_new_elem(
@@ -83,7 +92,7 @@ static void		input_handler(void)
 		}
 	}
 	if (!func)
-		ft_fatal_error("Hash type not supported!");
+		ft_fatal_error("Hash type not supported!", 0);
 	input = g_ssl->datalist;
 	while (input)
 	{
@@ -95,7 +104,11 @@ static void		input_handler(void)
 int				main(int ac, char **av)
 {
 	if (ac < 2)
+	{
+		printf("%d\n", l_to_b_endian(1));
+		// printf("%d\n", rotate_right(1, 24));
 		usage();
+	}
 	read_args(ac, av);
 	input_handler();
 	ft_print(g_ssl->datalist);

@@ -6,11 +6,11 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 13:07:52 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 18:16:10 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/06 12:52:01 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl_types.h"
+#include "common.h"
 
 static void	ft_print_data_error(t_data *data)
 {

@@ -6,11 +6,11 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 18:51:09 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 18:21:46 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/06 12:51:30 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl_types.h"
+#include "common.h"
 
 t_data	*new_data(char *name, int type)
 {
