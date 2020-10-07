@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 14:39:10 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 19:02:02 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,21 @@
 
 typedef struct	s_sha256
 {
-	uint32_t	h0;
-	uint32_t	h1;
-	uint32_t	h2;
-	uint32_t	h3;
-	uint32_t	h4;
-	uint32_t	h5;
-	uint32_t	h6;
-	uint32_t	h7;
-	uint32_t	a;
-	uint32_t	b;
-	uint32_t	c;
-	uint32_t	d;
-	uint32_t	e;
-	uint32_t	f;
-	uint32_t	g;
-	uint32_t	h;
+	uint32_t	h[8];
+	uint32_t	hh[8];
 	uint32_t	block[SHA256_BLOCK_SIZE / 4];
 }				t_sha256;
 
 extern const uint32_t	g_k[];
 
 int				sha256(t_data *data);
+
+/*
+**	sha256_utils.c
+*/
+
+void	sha256_u32_to_u8(uint8_t *hash, uint32_t h, int i);
+
 
 
 #endif

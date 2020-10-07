@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/06 18:43:28 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 16:48:47 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ int				main(int ac, char **av)
 {
 	if (ac < 2)
 	{
-		printf("%d\n", l_to_b_endian(1));
-		// printf("%d\n", rotate_right(1, 24));
 		usage();
 	}
 	read_args(ac, av);

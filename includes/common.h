@@ -6,12 +6,14 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 19:00:14 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/06 18:42:44 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 19:02:12 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMON_H
 # define COMMON_H
+
+# define READ_BLOCK_SIZE 1024
 
 # define L_ENDIAN 0
 # define B_ENDIAN 1
@@ -78,7 +80,6 @@ uint32_t		rotate_left(uint32_t x, uint32_t s);
 uint32_t		rotate_right(uint32_t x, uint32_t s);
 int				endian(void);
 void			ft_swap(uint8_t *one, uint8_t *two);
-uint32_t		l_to_b_endian(uint32_t a);
-
+uint32_t		lb_converter(uint32_t a);
 
 #endif

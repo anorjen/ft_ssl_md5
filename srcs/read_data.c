@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 12:50:29 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/06 12:52:07 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 17:38:35 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,8 @@ static ssize_t	read_file(t_data *data, uint8_t buf[], ssize_t size)
 		data->state = 1;
 		data->error = "Reading file ERROR!";
 	}
-	else
-	{
-		if (length < (int)size)
-			close(data->fd);
-	}
+	if (length < size)
+		close(data->fd);
 	return (length);
 }
 

@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/10/06 14:25:55 by anorjen          ###   ########.fr        #
+#    Updated: 2020/10/07 19:02:47 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SOURCES_LIST = 	ft_data.c \
 				utils.c \
 				md5.c \
 				md5_utils.c \
-				sha256.c
+				sha256.c \
+				sha256_utils.c \
 
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))

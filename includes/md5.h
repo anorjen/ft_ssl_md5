@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/06 14:25:30 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 19:00:30 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,8 @@
 
 typedef struct	s_md5
 {
-	uint32_t	a;
-	uint32_t	b;
-	uint32_t	c;
-	uint32_t	d;
-	uint32_t	aa;
-	uint32_t	bb;
-	uint32_t	cc;
-	uint32_t	dd;
+	uint32_t	h[4];
+	uint32_t	hh[4];
 	uint32_t	block[MD5_BLOCK_SIZE / 4];
 }				t_md5;
 
@@ -46,10 +40,17 @@ extern const uint32_t	g_t[];
 extern const uint32_t	g_s[];
 
 int			md5(t_data *data);
+
+/*
+**	md5_utils.c
+*/
+
 t_md5_utils	func_f(uint32_t x, uint32_t y, uint32_t z, int i);
 t_md5_utils	func_g(uint32_t x, uint32_t y, uint32_t z, int i);
 t_md5_utils	func_h(uint32_t x, uint32_t y, uint32_t z, int i);
 t_md5_utils	func_i(uint32_t x, uint32_t y, uint32_t z, int i);
+void		md5_u32_to_u8(uint8_t *hash, uint32_t h, int i);
+
 
 
 #endif
