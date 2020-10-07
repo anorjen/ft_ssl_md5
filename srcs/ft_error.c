@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 18:49:13 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/06 12:51:55 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 19:48:04 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	ft_fatal_error(char *message, int is_free)
 void	usage(void)
 {
 	write(1, "usage:\n", 7);
-	write(1, "./ft_ssl [hash_type] -q|-p|-r|-s [string] [file1] [file2] [...]]\n", 65);
+	write(1,
+	"./ft_ssl [hash_type] -q|-p|-r|-s [string] [file1] [file2] [...]]\n", 65);
 	write(1, "	-q -- quiet ouput\n", 19);
 	write(1, "	-p -- STDIN to STDOUT\n", 23);
 	write(1, "	-r -- recursive ouput\n", 23);

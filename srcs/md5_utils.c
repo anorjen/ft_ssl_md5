@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 14:29:03 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 19:00:39 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 19:49:50 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,24 @@ t_md5_utils	func_i(uint32_t x, uint32_t y, uint32_t z, int i)
 	return (util);
 }
 
-void	md5_u32_to_u8(uint8_t *hash, uint32_t h, int i)
+t_md5		*md5_init(void)
 {
+	t_md5	*e;
+
+	e = (t_md5 *)malloc(sizeof(t_md5));
 	if (endian() == L_ENDIAN)
 	{
-		hash[i * 4 + 0] = (uint8_t)(h >> 0);
-		hash[i * 4 + 1] = (uint8_t)(h >> 8);
-		hash[i * 4 + 2] = (uint8_t)(h >> 16);
-		hash[i * 4 + 3] = (uint8_t)(h >> 24);
+		e->h[0] = 0x67452301;
+		e->h[1] = 0xefcdab89;
+		e->h[2] = 0x98badcfe;
+		e->h[3] = 0x10325476;
 	}
 	else
 	{
-		hash[i * 4 + 0] = (uint8_t)(h >> 24);
-		hash[i * 4 + 1] = (uint8_t)(h >> 16);
-		hash[i * 4 + 2] = (uint8_t)(h >> 8);
-		hash[i * 4 + 3] = (uint8_t)(h >> 0);
+		e->h[0] = 0x01234567;
+		e->h[1] = 0x89abcdef;
+		e->h[2] = 0xfedcba98;
+		e->h[3] = 0x76543210;
 	}
+	return (e);
 }

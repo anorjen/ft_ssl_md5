@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 19:00:14 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 19:02:12 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 19:32:02 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,14 @@ uint32_t		rotate_right(uint32_t x, uint32_t s);
 int				endian(void);
 void			ft_swap(uint8_t *one, uint8_t *two);
 uint32_t		lb_converter(uint32_t a);
+
+/*
+** common.c
+*/
+
+char			*hash_to_string(uint8_t *hash, int output_size);
+void			*append_padding_bits(void *input, uint64_t size, int block_size);
+void			*append_length(void *end, uint64_t size, int endian_type);
+void			u32_to_u8(uint8_t *hash, uint32_t h, int i, int endian_type);
 
 #endif

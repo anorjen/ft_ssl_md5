@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 19:00:30 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 19:41:26 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MD5_H
 
 # define MD5_BLOCK_SIZE 64
+# define MD5_OUTPUT_SIZE 32
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -49,8 +50,7 @@ t_md5_utils	func_f(uint32_t x, uint32_t y, uint32_t z, int i);
 t_md5_utils	func_g(uint32_t x, uint32_t y, uint32_t z, int i);
 t_md5_utils	func_h(uint32_t x, uint32_t y, uint32_t z, int i);
 t_md5_utils	func_i(uint32_t x, uint32_t y, uint32_t z, int i);
-void		md5_u32_to_u8(uint8_t *hash, uint32_t h, int i);
-
+t_md5		*md5_init(void);
 
 
 #endif

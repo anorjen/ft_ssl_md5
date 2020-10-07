@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/10/07 19:02:47 by anorjen          ###   ########.fr        #
+#    Updated: 2020/10/07 19:45:46 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,11 @@ SOURCES_LIST = 	ft_data.c \
 				main.c \
 				read_data.c \
 				utils.c \
+				common.c \
 				md5.c \
 				md5_utils.c \
 				sha256.c \
-				sha256_utils.c \
-
+				sha256_utils.c
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
@@ -61,6 +61,7 @@ $(NAME): $(LIBFT) $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@$(CC) $(FLAGS) -o $(NAME)  $(OBJECTS) $(LIBRARIES) $(INCLUDES)
 	@echo "\n$(NAME): $(GREEN)$(NAME) object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
+	@if [ -e fail_test_* ]; then rm fail_test_*; fi
 	@./test.sh
 
 $(OBJECTS_DIRECTORY):

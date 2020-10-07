@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 19:03:06 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/07 19:55:08 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,65 +33,7 @@ const uint32_t	g_s[64] = {
 	6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21
 };
 
-static void			*append_padding_bits(void *input, uint64_t size)
-{
-	uint8_t	*end;
-
-	end = (uint8_t*)(input) + size;
-	*end = 0x80;
-	++end;
-	while ((end - (uint8_t*)(input)) % MD5_BLOCK_SIZE != (MD5_BLOCK_SIZE - 8))
-	{
-		*end = 0x00;
-		++end;
-	}
-	return (end);
-}
-
-static void			*append_length(void *end, uint64_t size)
-{
-	uint64_t length;
-
-	length = size * 8;
-	memcpy((void*)(end), &length, 8);
-	if (endian() == B_ENDIAN)
-	{
-		ft_swap(end, end + 7);
-		ft_swap(end + 1, end + 6);
-		ft_swap(end + 2, end + 5);
-		ft_swap(end + 3, end + 4);
-	}
-	end += 8;
-	return (end);
-}
-
-static t_md5			*md5_init(void)
-{
-	t_md5	*e;
-
-	e = (t_md5 *)malloc(sizeof(t_md5));
-	if (endian() == L_ENDIAN)
-	{
-		e->h[0] = 0x67452301;
-		e->h[1] = 0xefcdab89;
-		e->h[2] = 0x98badcfe;
-		e->h[3] = 0x10325476;
-	}
-	else
-	{
-		e->h[0] = 0x01234567;
-		e->h[1] = 0x89abcdef;
-		e->h[2] = 0xfedcba98;
-		e->h[3] = 0x76543210;
-	}
-	return (e);
-}
-
-/*
-**	a	b	c	d
-**	0	1	2	3
-*/
-static void			process_block(t_md5 *e)
+static void		process_block(t_md5 *e)
 {
 	ssize_t		i;
 	t_md5_utils	util;
@@ -116,7 +58,7 @@ static void			process_block(t_md5 *e)
 	}
 }
 
-static void			process(t_md5 *e, void *input, uint64_t size)
+static void		process(t_md5 *e, void *input, uint64_t size)
 {
 	uint8_t	*temp;
 	uint8_t	*end;
@@ -138,7 +80,7 @@ static void			process(t_md5 *e, void *input, uint64_t size)
 	}
 }
 
-static uint8_t			*finish(t_md5 *e)
+static uint8_t	*finish(t_md5 *e)
 {
 	uint8_t	*hash;
 	int		i;
@@ -148,34 +90,14 @@ static uint8_t			*finish(t_md5 *e)
 		i = -1;
 		while (++i < 4)
 		{
-			md5_u32_to_u8(hash, e->h[i], i);
+			u32_to_u8(hash, e->h[i], i, L_ENDIAN);
 		}
 	}
 	free(e);
 	return (hash);
 }
 
-static char			*md5_to_string(uint8_t *hash)
-{
-	char	*hex_char;
-	char	*ret;
-	size_t	j;
-	int		i;
-
-	hex_char = "0123456789abcdef";
-	j = 0;
-	ret = (char *)malloc(sizeof(char) * 33);
-	i = -1;
-	while (++i < 16)
-	{
-		ret[j++] = hex_char[hash[i] >> 4];
-		ret[j++] = hex_char[hash[i] & 0x0F];
-	}
-	ret[j] = '\0';
-	return (ret);
-}
-
-static uint8_t			*md5_calc(t_data *data)
+static uint8_t	*md5_calc(t_data *data)
 {
 	t_md5		*e;
 	ssize_t		ret;
@@ -194,8 +116,8 @@ static uint8_t			*md5_calc(t_data *data)
 	data->length += ret;
 	place = (uint8_t*)malloc(ret + 100);
 	memcpy((void*)(place), (void*)(buf), ret);
-	end = append_padding_bits((void*)place, ret);
-	end = append_length(end, data->length);
+	end = append_padding_bits((void*)place, ret, MD5_BLOCK_SIZE);
+	end = append_length(end, data->length, L_ENDIAN);
 	process(e, place, (end - place));
 	free(place);
 	return (finish(e));
@@ -208,7 +130,7 @@ int				md5(t_data *data)
 	hash = md5_calc(data);
 	if (hash == NULL)
 		return (1);
-	data->hash = md5_to_string(hash);
+	data->hash = hash_to_string(hash, MD5_OUTPUT_SIZE);
 	free(hash);
 	return (0);
 }
