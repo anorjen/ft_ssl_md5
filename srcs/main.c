@@ -6,16 +6,17 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 12:53:02 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 14:11:20 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-const t_hash	g_hashs[4] = {
+const t_hash	g_hashs[5] = {
 	{"md5", md5_calc, MD5_OUTPUT_SIZE},
 	{"sha256", sha256_calc, SHA256_OUTPUT_SIZE},
 	{"sha224", sha224_calc, SHA224_OUTPUT_SIZE},
+	{"sha512", sha512_calc, SHA512_OUTPUT_SIZE},
 	{NULL, NULL, 0}
 };
 

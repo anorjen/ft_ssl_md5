@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 19:07:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 19:50:16 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 14:12:03 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,31 @@ void	u32_to_u8(uint8_t *hash, uint32_t h, int i, int endian_type)
 		hash[i * 4 + 1] = (uint8_t)(h >> 16);
 		hash[i * 4 + 2] = (uint8_t)(h >> 8);
 		hash[i * 4 + 3] = (uint8_t)(h >> 0);
+	}
+}
+
+void	u64_to_u8(uint8_t *hash, uint64_t h, int i, int endian_type)
+{
+	if (endian() == endian_type)
+	{
+		hash[i * 8 + 0] = (uint8_t)(h >> 0);
+		hash[i * 8 + 1] = (uint8_t)(h >> 8);
+		hash[i * 8 + 2] = (uint8_t)(h >> 16);
+		hash[i * 8 + 3] = (uint8_t)(h >> 24);
+		hash[i * 8 + 4] = (uint8_t)(h >> 32);
+		hash[i * 8 + 5] = (uint8_t)(h >> 40);
+		hash[i * 8 + 6] = (uint8_t)(h >> 48);
+		hash[i * 8 + 7] = (uint8_t)(h >> 56);
+	}
+	else
+	{
+		hash[i * 8 + 0] = (uint8_t)(h >> 56);
+		hash[i * 8 + 1] = (uint8_t)(h >> 48);
+		hash[i * 8 + 2] = (uint8_t)(h >> 40);
+		hash[i * 8 + 3] = (uint8_t)(h >> 32);
+		hash[i * 8 + 4] = (uint8_t)(h >> 24);
+		hash[i * 8 + 5] = (uint8_t)(h >> 16);
+		hash[i * 8 + 6] = (uint8_t)(h >> 8);
+		hash[i * 8 + 7] = (uint8_t)(h >> 0);
 	}
 }

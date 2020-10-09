@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 13:18:09 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 16:42:19 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct	s_sha224
 	uint32_t	h[8];
 	uint32_t	hh[8];
 	uint32_t	w[64];
-	uint32_t	block[SHA224_BLOCK_SIZE / 4];
+	uint32_t	block[16];
 }				t_sha224;
 
 extern const uint32_t	g_sha256_k[];
