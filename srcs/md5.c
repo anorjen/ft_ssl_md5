@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 12:26:26 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 12:53:24 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static uint8_t	*finish(t_md5 *e)
 	return (hash);
 }
 
-static uint8_t	*md5_calc(t_data *data)
+uint8_t	*md5_calc(t_data *data)
 {
 	t_md5		*e;
 	ssize_t		ret;
@@ -121,16 +121,4 @@ static uint8_t	*md5_calc(t_data *data)
 	process(e, place, (end - place));
 	free(place);
 	return (finish(e));
-}
-
-int				md5(t_data *data)
-{
-	uint8_t	*hash;
-
-	hash = md5_calc(data);
-	if (hash == NULL)
-		return (1);
-	data->hash = hash_to_string(hash, MD5_OUTPUT_SIZE);
-	free(hash);
-	return (0);
 }

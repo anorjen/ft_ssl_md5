@@ -1,43 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   sha_common.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/10 19:05:56 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 12:47:30 by anorjen          ###   ########.fr       */
+/*   Created: 2020/10/09 12:56:23 by anorjen           #+#    #+#             */
+/*   Updated: 2020/10/09 13:13:12 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef SHA_COMMON_H
+# define SHA_COMMON_H
 
-# include <stdlib.h>
-
-# include "libft.h"
-# include "ft_dlist.h"
 # include "common.h"
 
-# include "md5.h"
-# include "sha256.h"
-# include "sha224.h"
+# define SHA_ENDIAN B_ENDIAN
 
-typedef uint8_t	*(*t_function)(t_data *data);
-
-typedef struct	s_hash
-{
-	char		*name;
-	t_function	function;
-	size_t		output_size;
-}				t_hash;
-
-extern const t_hash	g_hashs[];
-
-/*
-** ft_print.c
-*/
-
-void	ft_print(t_dlist *datalist);
+void	sha_generate_w32(uint32_t w[], uint32_t block[]);
+void	sha_generate_w64(uint64_t w[], uint64_t block[]);
 
 #endif

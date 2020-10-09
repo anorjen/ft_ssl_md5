@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 12:18:44 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 13:16:58 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,26 @@ const uint32_t	g_sha224_init[8] = {
 	0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4
 };
 
+static t_sha224		*sha224_init(void)
+{
+	int			i;
+	t_sha224	*e;
+
+	if ((e = (t_sha224 *)malloc(sizeof(t_sha224))) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
+	i = -1;
+	while (++i < 8)
+		e->h[i] = g_sha224_init[i];
+	return (e);
+}
+
 static void			process_block(t_sha224 *e)
 {
 	ssize_t			i;
 	uint32_t		temp1;
 	uint32_t		temp2;
 
-	sha224_generate_w(e);
+	sha_generate_w32(e->w, e->block);
 	i = -1;
 	while (++i < 64)
 	{
@@ -85,7 +98,7 @@ static uint8_t		*finish(t_sha224 *e)
 	return (hash);
 }
 
-static uint8_t		*sha224_calc(t_data *data)
+uint8_t		*sha224_calc(t_data *data)
 {
 	t_sha224	*e;
 	ssize_t		ret;
@@ -109,16 +122,4 @@ static uint8_t		*sha224_calc(t_data *data)
 	process(e, place, (end - place));
 	free(place);
 	return (finish(e));
-}
-
-int					sha224(t_data *data)
-{
-	uint8_t	*hash;
-
-	hash = sha224_calc(data);
-	if (hash == NULL)
-		return (1);
-	data->hash = hash_to_string(hash, SHA224_OUTPUT_SIZE);
-	free(hash);
-	return (0);
 }

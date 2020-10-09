@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/10/09 12:20:08 by anorjen          ###   ########.fr        #
+#    Updated: 2020/10/09 13:18:53 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ LIBFT_HEADERS = $(LIBFT_DIRECTORY)/includes
 HEADERS_LIST = 	common.h \
 				main.h \
 				md5.h \
-				sha256.h
+				sha256.h \
+				sha_common.h
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
@@ -38,10 +39,9 @@ SOURCES_LIST = 	ft_data.c \
 				common.c \
 				md5.c \
 				md5_utils.c \
+				sha_common.c \
 				sha256.c \
-				sha256_utils.c \
-				sha224.c \
-				sha224_utils.c
+				sha224.c
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 

@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 12:20:56 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 13:18:09 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # include "libft.h"
 # include "common.h"
+# include "sha_common.h"
 
 typedef struct	s_sha224
 {
@@ -40,15 +41,6 @@ extern const uint32_t	*g_sha224_k;
 extern const uint32_t	g_sha224_init[];
 
 
-int				sha224(t_data *data);
-
-/*
-**	sha224_utils.c
-*/
-
-t_sha224			*sha224_init(void);
-void				sha224_generate_w(t_sha224 *e);
-
-
+uint8_t			*sha224_calc(t_data *data);
 
 #endif

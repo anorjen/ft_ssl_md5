@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 11:31:57 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 12:33:00 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct	s_md5_utils
 extern const uint32_t	g_t[];
 extern const uint32_t	g_s[];
 
-int			md5(t_data *data);
+uint8_t			*md5_calc(t_data *data);
 
 /*
 **	md5_utils.c

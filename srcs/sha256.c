@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 12:15:31 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 13:17:46 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,26 @@ const uint32_t	g_sha256_init[8] = {
 	0x510e527fUL, 0x9b05688cUL, 0x1f83d9abUL, 0x5be0cd19UL
 };
 
+static t_sha256		*sha256_init(void)
+{
+	int			i;
+	t_sha256	*e;
+
+	if ((e = (t_sha256 *)malloc(sizeof(t_sha256))) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
+	i = -1;
+	while (++i < 8)
+		e->h[i] = g_sha256_init[i];
+	return (e);
+}
+
 static void			process_block(t_sha256 *e)
 {
 	ssize_t			i;
 	uint32_t		temp1;
 	uint32_t		temp2;
 
-	sha256_generate_w(e);
+	sha_generate_w32(e->w, e->block);
 	i = -1;
 	while (++i < 64)
 	{
@@ -97,7 +110,7 @@ static uint8_t		*finish(t_sha256 *e)
 	return (hash);
 }
 
-static uint8_t		*sha256_calc(t_data *data)
+uint8_t		*sha256_calc(t_data *data)
 {
 	t_sha256	*e;
 	ssize_t		ret;
@@ -121,16 +134,4 @@ static uint8_t		*sha256_calc(t_data *data)
 	process(e, place, (end - place));
 	free(place);
 	return (finish(e));
-}
-
-int					sha256(t_data *data)
-{
-	uint8_t	*hash;
-
-	hash = sha256_calc(data);
-	if (hash == NULL)
-		return (1);
-	data->hash = hash_to_string(hash, SHA256_OUTPUT_SIZE);
-	free(hash);
-	return (0);
 }

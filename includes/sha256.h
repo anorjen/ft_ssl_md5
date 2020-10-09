@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 12:19:39 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 13:18:18 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # include "libft.h"
 # include "common.h"
+# include "sha_common.h"
 
 typedef struct	s_sha256
 {
@@ -38,15 +39,6 @@ extern const uint32_t	g_sha256_k[];
 extern const uint32_t	g_sha256_init[];
 
 
-int				sha256(t_data *data);
-
-/*
-**	sha256_utils.c
-*/
-
-t_sha256			*sha256_init(void);
-void				sha256_generate_w(t_sha256 *e);
-
-
+uint8_t			*sha256_calc(t_data *data);
 
 #endif
