@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 19:55:08 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 12:26:26 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static uint8_t	*finish(t_md5 *e)
 		i = -1;
 		while (++i < 4)
 		{
-			u32_to_u8(hash, e->h[i], i, L_ENDIAN);
+			u32_to_u8(hash, e->h[i], i, MD5_ENDIAN);
 		}
 	}
 	free(e);
@@ -117,7 +117,7 @@ static uint8_t	*md5_calc(t_data *data)
 	place = (uint8_t*)malloc(ret + 100);
 	memcpy((void*)(place), (void*)(buf), ret);
 	end = append_padding_bits((void*)place, ret, MD5_BLOCK_SIZE);
-	end = append_length(end, data->length, L_ENDIAN);
+	end = append_length(end, data->length, MD5_ENDIAN);
 	process(e, place, (end - place));
 	free(place);
 	return (finish(e));

@@ -6,15 +6,16 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 16:48:47 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 12:11:08 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-const t_hash	g_hashs[3] = {
+const t_hash	g_hashs[4] = {
 	{"md5", md5},
 	{"sha256", sha256},
+	{"sha224", sha224},
 	{NULL, NULL}
 };
 

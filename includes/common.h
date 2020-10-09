@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 19:00:14 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 19:32:02 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 11:54:17 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 
 # define L_ENDIAN 0
 # define B_ENDIAN 1
+
+#define ROTR(x, n) (((x) >> (n)) | ((x) << (32 - (n))))
+#define ROTL(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
 
 # include <sys/stat.h>
 # include <fcntl.h>
