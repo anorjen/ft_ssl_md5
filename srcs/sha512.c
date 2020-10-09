@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 19:47:52 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 21:29:01 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ const uint64_t	g_sha512_init[8] = {
 	0x1f83d9abfb41bd6b, 0x5be0cd19137e2179
 };
 
-static t_sha512	*sha512_init(void)
+t_sha512	*sha512_init(const uint64_t sha_init[])
 {
 	int			i;
 	t_sha512	*e;
@@ -57,64 +57,23 @@ static t_sha512	*sha512_init(void)
 		ft_fatal_error("Malloc ERROR!", 0);
 	i = -1;
 	while (++i < 8)
-		e->h[i] = g_sha512_init[i];
+		e->h[i] = sha_init[i];
 	return (e);
 }
 
-static void		*sha512_append_padding_bits(void *input, uint64_t size, int block_size)
-{
-	uint8_t	*end;
-
-	end = (uint8_t*)(input) + size;
-	*end = 0x80;
-	++end;
-	while ((end - (uint8_t*)(input)) % block_size != (block_size - 16))
-	{
-		*end = 0x00;
-		++end;
-	}
-	return (end);
-}
-
-static void		*sha512_append_length(void *end, uint64_t size, int endian_type)
-{
-	__uint128_t	length;
-
-	length = (size * 8);
-	memcpy((void*)(end), &length, 16);
-	if (endian() != endian_type)
-	{
-		ft_swap(end, end + 15);
-		ft_swap(end + 1, end + 14);
-		ft_swap(end + 2, end + 13);
-		ft_swap(end + 3, end + 12);
-		ft_swap(end + 4, end + 11);
-		ft_swap(end + 5, end + 10);
-		ft_swap(end + 6, end + 9);
-		ft_swap(end + 7, end + 8);
-	}
-	end += 16;
-	return (end);
-}
-
-static void		process_block(t_sha512 *e)
+void		sha512_process_block(t_sha512 *e)
 {
 	ssize_t			i;
 	uint64_t		temp1;
 	uint64_t		temp2;
 
-	i = -1;
-	while (++i < 16)
-		e->w[i] = (endian() == SHA_ENDIAN ? e->block[i] : LB_CONV(e->block[i]));
-	i = 15;
-	while (++i < 80)
-		e->w[i] = e->w[i - 16] + D0(e->w[i - 15]) + e->w[i - 7] + D1(e->w[i - 2]);
+	sha512_generate_w(e->w, e->block);
 	i = -1;
 	while (++i < 80)
 	{
-		temp1 = e->hh[7] + S1(e->hh[4]) + CH(e->hh[4], e->hh[5], e->hh[6])
-								+ g_sha512_k[i] + e->w[i];
-		temp2 = S0(e->hh[0]) + MAJ(e->hh[0], e->hh[1], e->hh[2]);
+		temp1 = e->hh[7] + SHA512_S1(e->hh[4])
+		+ SHA512_CH(e->hh[4], e->hh[5], e->hh[6]) + g_sha512_k[i] + e->w[i];
+		temp2 = SHA512_S0(e->hh[0]) + SHA512_MAJ(e->hh[0], e->hh[1], e->hh[2]);
 		e->hh[7] = e->hh[6];
 		e->hh[6] = e->hh[5];
 		e->hh[5] = e->hh[4];
@@ -126,7 +85,7 @@ static void		process_block(t_sha512 *e)
 	}
 }
 
-static void		process(t_sha512 *e, void *input, uint64_t size)
+void		sha512_process(t_sha512 *e, void *input, uint64_t size)
 {
 	uint8_t	*temp;
 	uint8_t	*end;
@@ -140,7 +99,7 @@ static void		process(t_sha512 *e, void *input, uint64_t size)
 		while (++i < 8)
 			e->hh[i] = e->h[i];
 		memcpy(&(e->block), (void*)(temp), SHA512_BLOCK_SIZE);
-		process_block(e);
+		sha512_process_block(e);
 		i = -1;
 		while (++i < 8)
 			e->h[i] += e->hh[i];
@@ -148,15 +107,15 @@ static void		process(t_sha512 *e, void *input, uint64_t size)
 	}
 }
 
-static uint8_t	*finish(t_sha512 *e)
+uint8_t	*sha512_finish(t_sha512 *e, size_t block_amount)
 {
 	uint8_t	*hash;
-	int		i;
+	size_t	i;
 
-	if ((hash = (uint8_t*)malloc(64)) != NULL)
+	if ((hash = (uint8_t*)malloc(block_amount * 8)) != NULL)
 	{
 		i = -1;
-		while (++i < 8)
+		while (++i < block_amount)
 		{
 			u64_to_u8(hash, e->h[i], i, SHA512_ENDIAN);
 		}
@@ -173,10 +132,10 @@ uint8_t			*sha512_calc(t_data *data)
 	uint8_t		*place;
 	uint8_t		*end;
 
-	e = sha512_init();
+	e = sha512_init(g_sha512_init);
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
 	{
-		process(e, buf, READ_BLOCK_SIZE);
+		sha512_process(e, buf, READ_BLOCK_SIZE);
 		data->length += READ_BLOCK_SIZE;
 	}
 	if (ret == -1)
@@ -186,7 +145,7 @@ uint8_t			*sha512_calc(t_data *data)
 	memcpy((void*)(place), (void*)(buf), ret);
 	end = sha512_append_padding_bits((void*)place, ret, SHA512_BLOCK_SIZE);
 	end = sha512_append_length(end, data->length, SHA512_ENDIAN);
-	process(e, place, (end - place));
+	sha512_process(e, place, (end - place));
 	free(place);
-	return (finish(e));
+	return (sha512_finish(e, 8));
 }

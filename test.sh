@@ -212,3 +212,163 @@ do
 		cp test1 fail_test_$i
 	fi
 done
+
+
+MAX_LENTH=20
+echo "________________________________________________________________________________"
+echo "-------------------------------- SHA384 TEST -----------------------------------"
+
+printf "\e[1m%-"$MAX_LENTH"s %-140s%-20s%-20s\e[0m\n" "STRING" "SHA384SUM_OUTPUT" "ft_ssl-STDIN_OUT" "ft_ssl-STRING_OUT"
+
+for (( i=1; i <= $EVENTS; i++ ))
+do
+	# генерим случайную строку длиной от 1 до MAX_LENTH символов
+	STRING=`head /dev/urandom | tr -dc A-Za-z0-9 | head -c $((1 + RANDOM % $MAX_LENTH)) ; echo ''`
+	FT_SSL_STDIN_OUTPUT=`echo -n $STRING | ./ft_ssl sha384 -q`
+	FT_SSL_STRING_OUTPUT=`./ft_ssl sha384 -q -s $STRING`
+	SHA384SUM_OUTPUT=`echo -n "$STRING" | sha384sum | awk '{print $1}'`
+
+	printf "%-"$MAX_LENTH"s %-140s" "$STRING" "$SHA384SUM_OUTPUT"
+	if [[ $FT_SSL_STDIN_OUTPUT == $SHA384SUM_OUTPUT ]]
+	then
+		printf "\e[1;32m%-20s\e[0m" "OK"
+	else
+		printf "\e[1;31m%-20s\e[0m" "Fail"
+	fi
+
+	if [[ $FT_SSL_STRING_OUTPUT == $SHA384SUM_OUTPUT ]]
+	then
+		printf "\e[1;32m%-20s\e[0m" "OK"
+	else
+		printf "\e[1;31m%-20s\e[0m" "Fail"
+	fi
+	printf "\n"
+done
+
+MAX_LENTH=1000
+echo "________________________________________________________________________________"
+echo "---------------------------------- SHA384 TEST (FILE) ----------------------------"
+
+printf "\e[1m%-140s%-20s\e[0m\n" "SHA384SUM_OUTPUT" "ft_ssl-OUTPUT"
+for (( i=1; i <= $EVENTS; i++ ))
+do
+	# генерим случайную строку длиной от 1 до MAX_LENTH символов
+	head /dev/urandom | tr -dc A-Za-z0-9 | head -c $((1 + RANDOM % $MAX_LENTH)) > test1
+	FT_SSL_OUTPUT=`./ft_ssl sha384 -q test1`
+	SHA384SUM_OUTPUT=`sha384sum test1 | awk '{print $1}'`
+
+	if [[ $FT_SSL_OUTPUT == $SHA384SUM_OUTPUT ]]
+	then
+		printf "\e[32m%-140s\e[1m%-20s\e[0m\n" "$SHA384SUM_OUTPUT" "OK"
+		# cp test1 sucsess_test_$i
+	else
+		printf "\e[31m%-140s\e[1m%-20s\e[0m\n" "$SHA384SUM_OUTPUT" "Fail"
+		cp test1 fail_test_$i
+	fi
+done
+
+MAX_LENTH=20
+echo "________________________________________________________________________________"
+echo "-------------------------------- SHA512-224 TEST -----------------------------------"
+
+printf "\e[1m%-"$MAX_LENTH"s %-140s%-20s%-20s\e[0m\n" "STRING" "SHA512-224SUM_OUTPUT" "ft_ssl-STDIN_OUT" "ft_ssl-STRING_OUT"
+
+for (( i=1; i <= $EVENTS; i++ ))
+do
+	# генерим случайную строку длиной от 1 до MAX_LENTH символов
+	STRING=`head /dev/urandom | tr -dc A-Za-z0-9 | head -c $((1 + RANDOM % $MAX_LENTH)) ; echo ''`
+	FT_SSL_STDIN_OUTPUT=`echo -n $STRING | ./ft_ssl sha512-224 -q`
+	FT_SSL_STRING_OUTPUT=`./ft_ssl sha512-224 -q -s $STRING`
+	SHA512_224SUM_OUTPUT=`echo -n "$STRING" | openssl sha512-224 -r | awk '{print $1}'`
+
+	printf "%-"$MAX_LENTH"s %-140s" "$STRING" "$SHA512_224SUM_OUTPUT"
+	if [[ $FT_SSL_STDIN_OUTPUT == $SHA512_224SUM_OUTPUT ]]
+	then
+		printf "\e[1;32m%-20s\e[0m" "OK"
+	else
+		printf "\e[1;31m%-20s\e[0m" "Fail"
+	fi
+
+	if [[ $FT_SSL_STRING_OUTPUT == $SHA512_224SUM_OUTPUT ]]
+	then
+		printf "\e[1;32m%-20s\e[0m" "OK"
+	else
+		printf "\e[1;31m%-20s\e[0m" "Fail"
+	fi
+	printf "\n"
+done
+
+MAX_LENTH=1000
+echo "________________________________________________________________________________"
+echo "---------------------------------- SHA512-224 TEST (FILE) ----------------------------"
+
+printf "\e[1m%-140s%-20s\e[0m\n" "SHA512-224SUM_OUTPUT" "ft_ssl-OUTPUT"
+for (( i=1; i <= $EVENTS; i++ ))
+do
+	# генерим случайную строку длиной от 1 до MAX_LENTH символов
+	head /dev/urandom | tr -dc A-Za-z0-9 | head -c $((1 + RANDOM % $MAX_LENTH)) > test1
+	FT_SSL_OUTPUT=`./ft_ssl sha512-224 -q test1`
+	SHA512_224SUM_OUTPUT=`openssl sha512-224 -r test1 | awk '{print $1}'`
+
+	if [[ $FT_SSL_OUTPUT == $SHA512_224SUM_OUTPUT ]]
+	then
+		printf "\e[32m%-140s\e[1m%-20s\e[0m\n" "$SHA512_224SUM_OUTPUT" "OK"
+		# cp test1 sucsess_test_$i
+	else
+		printf "\e[31m%-140s\e[1m%-20s\e[0m\n" "$SHA512_224SUM_OUTPUT" "Fail"
+		cp test1 fail_test_$i
+	fi
+done
+
+MAX_LENTH=20
+echo "________________________________________________________________________________"
+echo "-------------------------------- SHA512-256 TEST -----------------------------------"
+
+printf "\e[1m%-"$MAX_LENTH"s %-140s%-20s%-20s\e[0m\n" "STRING" "SHA512-256SUM_OUTPUT" "ft_ssl-STDIN_OUT" "ft_ssl-STRING_OUT"
+
+for (( i=1; i <= $EVENTS; i++ ))
+do
+	# генерим случайную строку длиной от 1 до MAX_LENTH символов
+	STRING=`head /dev/urandom | tr -dc A-Za-z0-9 | head -c $((1 + RANDOM % $MAX_LENTH)) ; echo ''`
+	FT_SSL_STDIN_OUTPUT=`echo -n $STRING | ./ft_ssl sha512-256 -q`
+	FT_SSL_STRING_OUTPUT=`./ft_ssl sha512-256 -q -s $STRING`
+	SHA512_256SUM_OUTPUT=`echo -n "$STRING" | openssl sha512-256 -r | awk '{print $1}'`
+
+	printf "%-"$MAX_LENTH"s %-140s" "$STRING" "$SHA512_256SUM_OUTPUT"
+	if [[ $FT_SSL_STDIN_OUTPUT == $SHA512_256SUM_OUTPUT ]]
+	then
+		printf "\e[1;32m%-20s\e[0m" "OK"
+	else
+		printf "\e[1;31m%-20s\e[0m" "Fail"
+	fi
+
+	if [[ $FT_SSL_STRING_OUTPUT == $SHA512_256SUM_OUTPUT ]]
+	then
+		printf "\e[1;32m%-20s\e[0m" "OK"
+	else
+		printf "\e[1;31m%-20s\e[0m" "Fail"
+	fi
+	printf "\n"
+done
+
+MAX_LENTH=1000
+echo "________________________________________________________________________________"
+echo "---------------------------------- SHA512-256 TEST (FILE) ----------------------------"
+
+printf "\e[1m%-140s%-20s\e[0m\n" "SHA512-256SUM_OUTPUT" "ft_ssl-OUTPUT"
+for (( i=1; i <= $EVENTS; i++ ))
+do
+	# генерим случайную строку длиной от 1 до MAX_LENTH символов
+	head /dev/urandom | tr -dc A-Za-z0-9 | head -c $((1 + RANDOM % $MAX_LENTH)) > test1
+	FT_SSL_OUTPUT=`./ft_ssl sha512-256 -q test1`
+	SHA512_256SUM_OUTPUT=`openssl sha512-256 -r test1 | awk '{print $1}'`
+
+	if [[ $FT_SSL_OUTPUT == $SHA512_256SUM_OUTPUT ]]
+	then
+		printf "\e[32m%-140s\e[1m%-20s\e[0m\n" "$SHA512_256SUM_OUTPUT" "OK"
+		# cp test1 sucsess_test_$i
+	else
+		printf "\e[31m%-140s\e[1m%-20s\e[0m\n" "$SHA512_256SUM_OUTPUT" "Fail"
+		cp test1 fail_test_$i
+	fi
+done

@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:56 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 14:06:38 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 21:52:35 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include "sha256.h"
 # include "sha224.h"
 # include "sha512.h"
+# include "sha384.h"
+# include "sha512-224.h"
+# include "sha512-256.h"
 
 typedef uint8_t	*(*t_function)(t_data *data);
 

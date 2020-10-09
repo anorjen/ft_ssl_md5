@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 20:01:32 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/09 20:52:56 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ const uint32_t	g_sha256_init[8] = {
 	0x510e527fUL, 0x9b05688cUL, 0x1f83d9abUL, 0x5be0cd19UL
 };
 
-static t_sha256		*sha256_init(void)
+t_sha256		*sha256_init(const uint32_t sha_init[])
 {
 	int			i;
 	t_sha256	*e;
@@ -40,26 +40,23 @@ static t_sha256		*sha256_init(void)
 		ft_fatal_error("Malloc ERROR!", 0);
 	i = -1;
 	while (++i < 8)
-		e->h[i] = g_sha256_init[i];
+		e->h[i] = sha_init[i];
 	return (e);
 }
 
-static void			process_block(t_sha256 *e)
+void			sha256_process_block(t_sha256 *e)
 {
 	ssize_t			i;
 	uint32_t		temp1;
 	uint32_t		temp2;
 
-	sha_generate_w32(e->w, e->block);
+	sha256_generate_w(e->w, e->block);
 	i = -1;
 	while (++i < 64)
 	{
-		temp1 = e->hh[7] + (rotate_right(e->hh[4], 6)
-		^ rotate_right(e->hh[4], 11) ^ rotate_right(e->hh[4], 25)) + ((e->hh[4]
-		& e->hh[5]) ^ (~(e->hh[4]) & e->hh[6])) + g_sha256_k[i] + e->w[i];
-		temp2 = (rotate_right(e->hh[0], 2) ^ rotate_right(e->hh[0], 13)
-		^ rotate_right(e->hh[0], 22)) + ((e->hh[0] & e->hh[1])
-		^ (e->hh[0] & e->hh[2]) ^ (e->hh[1] & e->hh[2]));
+		temp1 = e->hh[7] + SHA256_S1(e->hh[4]) + SHA256_CH(e->hh[4], e->hh[5], e->hh[6])
+								+ g_sha256_k[i] + e->w[i];
+		temp2 = SHA256_S0(e->hh[0]) + SHA256_MAJ(e->hh[0], e->hh[1], e->hh[2]);
 		e->hh[7] = e->hh[6];
 		e->hh[6] = e->hh[5];
 		e->hh[5] = e->hh[4];
@@ -71,7 +68,7 @@ static void			process_block(t_sha256 *e)
 	}
 }
 
-static void			process(t_sha256 *e, void *input, uint64_t size)
+void			sha256_process(t_sha256 *e, void *input, uint64_t size)
 {
 	uint8_t	*temp;
 	uint8_t	*end;
@@ -85,7 +82,7 @@ static void			process(t_sha256 *e, void *input, uint64_t size)
 		while (++i < 8)
 			e->hh[i] = e->h[i];
 		memcpy(&(e->block), (void*)(temp), SHA256_BLOCK_SIZE);
-		process_block(e);
+		sha256_process_block(e);
 		i = -1;
 		while (++i < 8)
 			e->h[i] += e->hh[i];
@@ -93,15 +90,15 @@ static void			process(t_sha256 *e, void *input, uint64_t size)
 	}
 }
 
-static uint8_t		*finish(t_sha256 *e)
+uint8_t		*sha256_finish(t_sha256 *e, size_t block_amount)
 {
 	uint8_t	*hash;
-	int		i;
+	size_t	i;
 
-	if ((hash = (uint8_t*)malloc(32)) != NULL)
+	if ((hash = (uint8_t*)malloc(block_amount * sizeof(uint32_t))) != NULL)
 	{
 		i = -1;
-		while (++i < 8)
+		while (++i < block_amount)
 		{
 			u32_to_u8(hash, e->h[i], i, SHA256_ENDIAN);
 		}
@@ -118,10 +115,10 @@ uint8_t		*sha256_calc(t_data *data)
 	uint8_t		*place;
 	uint8_t		*end;
 
-	e = sha256_init();
+	e = sha256_init(g_sha256_init);
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
 	{
-		process(e, buf, READ_BLOCK_SIZE);
+		sha256_process(e, buf, READ_BLOCK_SIZE);
 		data->length += READ_BLOCK_SIZE;
 	}
 	if (ret == -1)
@@ -131,7 +128,7 @@ uint8_t		*sha256_calc(t_data *data)
 	memcpy((void*)(place), (void*)(buf), ret);
 	end = append_padding_bits((void*)place, ret, SHA256_BLOCK_SIZE);
 	end = append_length(end, data->length, SHA256_ENDIAN);
-	process(e, place, (end - place));
+	sha256_process(e, place, (end - place));
 	free(place);
-	return (finish(e));
+	return (sha256_finish(e, 8));
 }
