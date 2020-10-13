@@ -26,7 +26,7 @@ MAX_LENTH=20
 echo "________________________________________________________________________________________________________________________________________________________________"
 echo "------------------------------ MD5 TEST (STDIN/STRING) ---------------------------------------------------------------------------------------------------------"
 
-printf "\e[1m%-"$MAX_LENTH"s%-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "MD5SUM_OUTPUT" "ft_ssl"
+printf "\e[1m%-"$MAX_LENTH"s %-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "MD5SUM_OUTPUT" "ft_ssl"
 for (( i=1; i <= $EVENTS; i++ ))
 do
 	# генерим случайную строку длиной от 1 до MAX_LENTH символов
@@ -35,7 +35,7 @@ do
 	FT_SSL_STRING_OUTPUT=`./ft_ssl md5 -q -s $STRING`
 	MD5SUM_OUTPUT=`echo -n "$STRING" | md5sum | awk '{print $1}'`
 
-	printf "%-"$MAX_LENTH"s%-"$HASH_LENTH"s" "$STRING" "$MD5SUM_OUTPUT"
+	printf "%-"$MAX_LENTH"s %-"$HASH_LENTH"s" "$STRING" "$MD5SUM_OUTPUT"
 
 	printf "%-16s" $( funcCompareStatus $MD5SUM_OUTPUT $FT_SSL_STDIN_OUTPUT)
 	printf "%-16s" $( funcCompareStatus $MD5SUM_OUTPUT $FT_SSL_STRING_OUTPUT)
@@ -63,7 +63,7 @@ MAX_LENTH=20
 echo "________________________________________________________________________________________________________________________________________________________________"
 echo "------------------------- SHA256 TEST (STDIN/STRING) -----------------------------------------------------------------------------------------------------------"
 
-printf "\e[1m%-"$MAX_LENTH"s%-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA256SUM_OUTPUT" "ft_ssl"
+printf "\e[1m%-"$MAX_LENTH"s %-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA256SUM_OUTPUT" "ft_ssl"
 
 for (( i=1; i <= $EVENTS; i++ ))
 do
@@ -73,7 +73,7 @@ do
 	FT_SSL_STRING_OUTPUT=`./ft_ssl sha256 -q -s $STRING`
 	SHA256SUM_OUTPUT=`echo -n "$STRING" | sha256sum | awk '{print $1}'`
 
-	printf "%-"$MAX_LENTH"s%-"$HASH_LENTH"s" "$STRING" "$SHA256SUM_OUTPUT"
+	printf "%-"$MAX_LENTH"s %-"$HASH_LENTH"s" "$STRING" "$SHA256SUM_OUTPUT"
 
 	printf "%-16s" $( funcCompareStatus $SHA256SUM_OUTPUT $FT_SSL_STDIN_OUTPUT)
 	printf "%-16s" $( funcCompareStatus $SHA256SUM_OUTPUT $FT_SSL_STRING_OUTPUT)
@@ -101,7 +101,7 @@ MAX_LENTH=20
 echo "________________________________________________________________________________________________________________________________________________________________"
 echo "-------------------------- SHA224 TEST (STDIN/STRING) ----------------------------------------------------------------------------------------------------------"
 
-printf "\e[1m%-"$MAX_LENTH"s%-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA224SUM_OUTPUT" "ft_ssl"
+printf "\e[1m%-"$MAX_LENTH"s %-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA224SUM_OUTPUT" "ft_ssl"
 
 for (( i=1; i <= $EVENTS; i++ ))
 do
@@ -111,7 +111,7 @@ do
 	FT_SSL_STRING_OUTPUT=`./ft_ssl sha224 -q -s $STRING`
 	SHA224SUM_OUTPUT=`echo -n "$STRING" | sha224sum | awk '{print $1}'`
 
-	printf "%-"$MAX_LENTH"s%-"$HASH_LENTH"s" "$STRING" "$SHA224SUM_OUTPUT"
+	printf "%-"$MAX_LENTH"s %-"$HASH_LENTH"s" "$STRING" "$SHA224SUM_OUTPUT"
 
 	printf "%-16s" $( funcCompareStatus $SHA224SUM_OUTPUT $FT_SSL_STDIN_OUTPUT)
 	printf "%-16s" $( funcCompareStatus $SHA224SUM_OUTPUT $FT_SSL_STRING_OUTPUT)
@@ -139,7 +139,7 @@ MAX_LENTH=20
 echo "________________________________________________________________________________________________________________________________________________________________"
 echo "----------------------- SHA512 TEST (STDIN/STRING) -------------------------------------------------------------------------------------------------------------"
 
-printf "\e[1m%-"$MAX_LENTH"s%-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA512SUM_OUTPUT" "ft_ssl"
+printf "\e[1m%-"$MAX_LENTH"s %-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA512SUM_OUTPUT" "ft_ssl"
 
 for (( i=1; i <= $EVENTS; i++ ))
 do
@@ -149,7 +149,7 @@ do
 	FT_SSL_STRING_OUTPUT=`./ft_ssl sha512 -q -s $STRING`
 	SHA512SUM_OUTPUT=`echo -n "$STRING" | sha512sum | awk '{print $1}'`
 
-	printf "%-"$MAX_LENTH"s%-"$HASH_LENTH"s" "$STRING" "$SHA512SUM_OUTPUT"
+	printf "%-"$MAX_LENTH"s %-"$HASH_LENTH"s" "$STRING" "$SHA512SUM_OUTPUT"
 
 	printf "%-16s" $( funcCompareStatus $SHA512SUM_OUTPUT $FT_SSL_STDIN_OUTPUT)
 	printf "%-16s" $( funcCompareStatus $SHA512SUM_OUTPUT $FT_SSL_STRING_OUTPUT)
@@ -177,7 +177,7 @@ MAX_LENTH=20
 echo "________________________________________________________________________________________________________________________________________________________________"
 echo "------------------------ SHA384 TEST (STDIN/STRING) ------------------------------------------------------------------------------------------------------------"
 
-printf "\e[1m%-"$MAX_LENTH"s%-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA384SUM_OUTPUT" "ft_ssl"
+printf "\e[1m%-"$MAX_LENTH"s %-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA384SUM_OUTPUT" "ft_ssl"
 
 for (( i=1; i <= $EVENTS; i++ ))
 do
@@ -187,7 +187,7 @@ do
 	FT_SSL_STRING_OUTPUT=`./ft_ssl sha384 -q -s $STRING`
 	SHA384SUM_OUTPUT=`echo -n "$STRING" | sha384sum | awk '{print $1}'`
 
-	printf "%-"$MAX_LENTH"s%-"$HASH_LENTH"s" "$STRING" "$SHA384SUM_OUTPUT"
+	printf "%-"$MAX_LENTH"s %-"$HASH_LENTH"s" "$STRING" "$SHA384SUM_OUTPUT"
 
 	printf "%-16s" $( funcCompareStatus $SHA384SUM_OUTPUT $FT_SSL_STDIN_OUTPUT)
 	printf "%-16s" $( funcCompareStatus $SHA384SUM_OUTPUT $FT_SSL_STRING_OUTPUT)
@@ -215,7 +215,7 @@ MAX_LENTH=20
 echo "________________________________________________________________________________________________________________________________________________________________"
 echo "--------------------- SHA512-224 TEST (STDIN/STRING) -----------------------------------------------------------------------------------------------------------"
 
-printf "\e[1m%-"$MAX_LENTH"s%-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA512-224SUM_OUTPUT" "ft_ssl"
+printf "\e[1m%-"$MAX_LENTH"s %-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA512-224SUM_OUTPUT" "ft_ssl"
 
 for (( i=1; i <= $EVENTS; i++ ))
 do
@@ -225,7 +225,7 @@ do
 	FT_SSL_STRING_OUTPUT=`./ft_ssl sha512-224 -q -s $STRING`
 	SHA512_224SUM_OUTPUT=`echo -n "$STRING" | openssl sha512-224 -r | awk '{print $1}'`
 
-	printf "%-"$MAX_LENTH"s%-"$HASH_LENTH"s" "$STRING" "$SHA512_224SUM_OUTPUT"
+	printf "%-"$MAX_LENTH"s %-"$HASH_LENTH"s" "$STRING" "$SHA512_224SUM_OUTPUT"
 
 	printf "%-16s" $( funcCompareStatus $SHA512_224SUM_OUTPUT $FT_SSL_STDIN_OUTPUT)
 	printf "%-16s" $( funcCompareStatus $SHA512_224SUM_OUTPUT $FT_SSL_STRING_OUTPUT)
@@ -253,7 +253,7 @@ MAX_LENTH=20
 echo "________________________________________________________________________________________________________________________________________________________________"
 echo "-------------------- SHA512-256 TEST (STDIN/STRING) ------------------------------------------------------------------------------------------------------------"
 
-printf "\e[1m%-"$MAX_LENTH"s%-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA512-256SUM_OUTPUT" "ft_ssl"
+printf "\e[1m%-"$MAX_LENTH"s %-"$HASH_LENTH"s%-10s\e[0m\n" "STRING" "SHA512-256SUM_OUTPUT" "ft_ssl"
 
 for (( i=1; i <= $EVENTS; i++ ))
 do
@@ -263,7 +263,7 @@ do
 	FT_SSL_STRING_OUTPUT=`./ft_ssl sha512-256 -q -s $STRING`
 	SHA512_256SUM_OUTPUT=`echo -n "$STRING" | openssl sha512-256 -r | awk '{print $1}'`
 
-	printf "%-"$MAX_LENTH"s%-"$HASH_LENTH"s" "$STRING" "$SHA512_256SUM_OUTPUT"
+	printf "%-"$MAX_LENTH"s %-"$HASH_LENTH"s" "$STRING" "$SHA512_256SUM_OUTPUT"
 
 	printf "%-16s" $( funcCompareStatus $SHA512_256SUM_OUTPUT $FT_SSL_STDIN_OUTPUT)
 	printf "%-16s" $( funcCompareStatus $SHA512_256SUM_OUTPUT $FT_SSL_STRING_OUTPUT)

@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 19:07:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 12:15:13 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 23:36:28 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,11 @@ void	*append_length(void *end, uint64_t size, int endian_type)
 	uint64_t	length;
 
 	length = size * 8;
-	memcpy((void*)(end), &length, 8);
 	if (endian() != endian_type)
 	{
-		ft_swap(end, end + 7);
-		ft_swap(end + 1, end + 6);
-		ft_swap(end + 2, end + 5);
-		ft_swap(end + 3, end + 4);
+		length = LB_CONV64(length);
 	}
+	ft_memcpy((void*)(end), &length, 8);
 	end += 8;
 	return (end);
 }

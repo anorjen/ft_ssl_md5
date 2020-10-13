@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 13:00:13 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 21:04:28 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 19:11:13 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*sha512_append_length(void *end, uint64_t size, int endian_type)
 	__uint128_t	length;
 
 	length = (size * 8);
-	memcpy((void*)(end), &length, 16);
+	ft_memcpy((void*)(end), &length, 16);
 	if (endian() != endian_type)
 	{
 		ft_swap(end, end + 15);

@@ -3,25 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 10:47:27 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/05 16:52:10 by agottlie         ###   ########.fr       */
+/*   Updated: 2020/10/13 23:32:59 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_memcpy(void *destination, const void *source, size_t n)
 {
-	size_t			i;
-	unsigned char	*new_arr;
-	unsigned char	*old_arr;
+	unsigned char		*dest;
+	const unsigned char	*src;
 
-	i = -1;
-	new_arr = (unsigned char *)dst;
-	old_arr = (unsigned char *)src;
-	while (++i < n)
-		new_arr[i] = old_arr[i];
-	return (new_arr);
+	dest = (unsigned char *)destination;
+	src = (const unsigned char *)source;
+	while (n--)
+		*dest++ = *src++;
+	return (dest);
 }

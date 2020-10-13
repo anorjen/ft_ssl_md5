@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 12:17:53 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 23:30:51 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void		process(t_md5 *e, void *input, uint64_t size)
 	end = temp + size;
 	while (temp != end)
 	{
-		memcpy(&(e->block), (void*)(temp), MD5_BLOCK_SIZE);
+		ft_memcpy(&(e->block), (void*)(temp), MD5_BLOCK_SIZE);
 		i = -1;
 		while (++i < 4)
 			e->hh[i] = e->h[i];
@@ -117,7 +117,7 @@ uint8_t	*md5_calc(t_data *data, const t_hash *hash_handler)
 	data->length += ret;
 	if ((place = (uint8_t*)malloc(ret + 100)) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
-	memcpy((void*)(place), (void*)(buf), ret);
+	ft_memcpy((void*)(place), (void*)(buf), ret);
 	end = append_padding_bits((void*)place, ret, MD5_BLOCK_SIZE);
 	end = append_length(end, data->length, MD5_ENDIAN);
 	process(e, place, (end - place));

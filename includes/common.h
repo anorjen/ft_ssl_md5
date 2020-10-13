@@ -6,12 +6,16 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 19:00:14 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 18:52:16 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 23:38:30 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMON_H
 # define COMMON_H
+
+# include <sys/stat.h>
+# include <fcntl.h>
+# include "ft_dlist.h"
 
 # define READ_BLOCK_SIZE 1024
 
@@ -29,11 +33,6 @@
 				| (((a) << 24) & 0x0000ff0000000000) | (((a) << 8) & 0x000000ff00000000) \
 				| (((a) >> 56) & 0x00000000000000ff) | (((a) >> 40) & 0x000000000000ff00) \
 				| (((a) >> 24) & 0x0000000000ff0000) | (((a) >> 8) & 0x00000000ff000000)
-
-
-# include <sys/stat.h>
-# include <fcntl.h>
-# include "ft_dlist.h"
 
 typedef enum	e_input
 {

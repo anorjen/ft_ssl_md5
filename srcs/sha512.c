@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 12:19:34 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 19:11:20 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void		sha512_process(t_sha512 *e, void *input, uint64_t size)
 		i = -1;
 		while (++i < 8)
 			e->hh[i] = e->h[i];
-		memcpy(&(e->block), (void*)(temp), SHA512_BLOCK_SIZE);
+		ft_memcpy(&(e->block), (void*)(temp), SHA512_BLOCK_SIZE);
 		sha512_process_block(e);
 		i = -1;
 		while (++i < 8)
@@ -161,7 +161,7 @@ uint8_t			*sha512_calc(t_data *data, const t_hash *hash_handler)
 	data->length += ret;
 	if ((place = (uint8_t*)malloc(ret + 150)) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
-	memcpy((void*)(place), (void*)(buf), ret);
+	ft_memcpy((void*)(place), (void*)(buf), ret);
 	end = sha512_append_padding_bits((void*)place, ret, hash_handler->block_size);
 	end = sha512_append_length(end, data->length, SHA512_ENDIAN);
 	sha512_process(e, place, (end - place));

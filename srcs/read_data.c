@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 12:50:29 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 17:38:35 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 19:11:06 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static ssize_t	read_string(t_data *data, uint8_t *buf)
 		pos = (void*)data->name;
 	length = ft_strlen((char*)pos);
 	length = (length <= 64 ? length : 64);
-	memcpy((void*)(buf), (void*)(data->name), length);
+	ft_memcpy((void*)(buf), (void*)(data->name), length);
 	pos += length;
 	return (length);
 }
