@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 19:07:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 14:12:03 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 12:15:13 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ char	*hash_to_string(uint8_t *hash, int output_size)
 
 	hex_char = "0123456789abcdef";
 	j = 0;
-	ret = (char *)malloc(sizeof(char) * (output_size + 1));
+	if ((ret = (char *)malloc(sizeof(char) * (output_size + 1))) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
 	i = -1;
 	while (++i < (output_size / 2))
 	{

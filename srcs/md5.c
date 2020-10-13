@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 12:53:24 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 12:17:53 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,24 @@ const uint32_t	g_s[64] = {
 static void		process_block(t_md5 *e)
 {
 	ssize_t		i;
-	t_md5_utils	util;
+	uint32_t	f;
 
 	i = 0;
 	while (i < 64)
 	{
 		if (i >= 0 && i < 16)
-			util = func_f(e->hh[1], e->hh[2], e->hh[3], i);
+			f = ((e->hh[1] & e->hh[2]) | (~(e->hh[1]) & e->hh[3]));
 		else if (i >= 16 && i < 32)
-			util = func_g(e->hh[1], e->hh[2], e->hh[3], i);
+			f = ((e->hh[1] & e->hh[3]) | (~(e->hh[3]) & e->hh[2]));
 		else if (i >= 32 && i < 48)
-			util = func_h(e->hh[1], e->hh[2], e->hh[3], i);
+			f = (e->hh[1] ^ e->hh[2] ^ e->hh[3]);
 		else if (i >= 48 && i < 64)
-			util = func_i(e->hh[1], e->hh[2], e->hh[3], i);
-		util.f = util.f + e->hh[0] + g_t[i] + e->block[util.g];
+			f = (e->hh[2] ^ (~(e->hh[3]) | e->hh[1]));
+		f = f + e->hh[0] + g_t[i] + e->block[e->g[i]];
 		e->hh[0] = e->hh[3];
 		e->hh[3] = e->hh[2];
 		e->hh[2] = e->hh[1];
-		e->hh[1] += rotate_left(util.f, g_s[i]);
+		e->hh[1] += ROTL32(f, g_s[i]);
 		++i;
 	}
 }
@@ -97,7 +97,7 @@ static uint8_t	*finish(t_md5 *e)
 	return (hash);
 }
 
-uint8_t	*md5_calc(t_data *data)
+uint8_t	*md5_calc(t_data *data, const t_hash *hash_handler)
 {
 	t_md5		*e;
 	ssize_t		ret;
@@ -105,6 +105,7 @@ uint8_t	*md5_calc(t_data *data)
 	uint8_t		*place;
 	uint8_t		*end;
 
+	(void)hash_handler;
 	e = md5_init();
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
 	{
@@ -114,7 +115,8 @@ uint8_t	*md5_calc(t_data *data)
 	if (ret == -1)
 		return (NULL);
 	data->length += ret;
-	place = (uint8_t*)malloc(ret + 100);
+	if ((place = (uint8_t*)malloc(ret + 100)) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
 	memcpy((void*)(place), (void*)(buf), ret);
 	end = append_padding_bits((void*)place, ret, MD5_BLOCK_SIZE);
 	end = append_length(end, data->length, MD5_ENDIAN);

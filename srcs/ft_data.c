@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 18:51:09 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/06 12:51:30 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 12:15:52 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_data	*new_data(char *name, int type)
 {
 	t_data	*data;
 
-	data = (t_data*)malloc(sizeof(t_data));
+	if ((data = (t_data*)malloc(sizeof(t_data))) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
 	if (data)
 	{
 		data->name = name;

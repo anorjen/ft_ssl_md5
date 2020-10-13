@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 19:00:14 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 19:38:15 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/12 19:25:18 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,21 @@
 # define L_ENDIAN 0
 # define B_ENDIAN 1
 
-// #define ROTR(x, n) (((x) >> (n)) | ((x) << (32 - (n))))
-// #define ROTL(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
+# define ROTR64(x, s) (((x) >> (s)) | ((x) << (64 - (s))))
+# define ROTR32(x, s) (((x) >> (s)) | ((x) << (32 - (s))))
+# define ROTL32(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
+
+# define LB_CONV32(a) ((((a) << 24) & 0xff000000) | (((a) << 8) & 0x00ff0000) \
+					| (((a) >> 24) & 0x000000ff) | (((a) >> 8) & 0x0000ff00))
+
+# define LB_CONV64(a) (((a) << 56) & 0xff00000000000000) | (((a) << 40) & 0x00ff000000000000) \
+				| (((a) << 24) & 0x0000ff0000000000) | (((a) << 8) & 0x000000ff00000000) \
+				| (((a) >> 56) & 0x00000000000000ff) | (((a) >> 40) & 0x000000000000ff00) \
+				| (((a) >> 24) & 0x0000000000ff0000) | (((a) >> 8) & 0x00000000ff000000)
+
 
 # include <sys/stat.h>
 # include <fcntl.h>
-
 # include "ft_dlist.h"
 
 typedef enum	e_input
@@ -54,6 +63,20 @@ typedef struct	s_data
 	uint64_t	length;
 }				t_data;
 
+typedef struct	s_hash
+{
+	char		*name;
+	uint8_t		*(*t_function)(t_data *data, const struct s_hash *hash_handler);
+	size_t		output_size;
+	size_t		block_size;
+	size_t		block_amount;
+	const void	*init_h;
+}				t_hash;
+
+// typedef uint8_t	*(*t_function)(t_data *data, t_hash *hash_handler);
+
+
+
 t_ssl	*g_ssl;
 
 ssize_t	read_data(t_data *data, uint8_t buf[], ssize_t size);
@@ -79,13 +102,13 @@ void	del_data(void *data);
 ** utils.c
 */
 
-uint32_t		rotate_left(uint32_t x, uint32_t s);
-uint32_t		rotate_right(uint32_t x, uint32_t s);
-uint64_t		rotate_right64(uint64_t x, uint64_t s);
+// uint32_t		rotate_left(uint32_t x, uint32_t s);
+// uint32_t		rotate_right(uint32_t x, uint32_t s);
+// uint64_t		rotate_right64(uint64_t x, uint64_t s);
 int				endian(void);
 void			ft_swap(uint8_t *one, uint8_t *two);
-uint32_t		lb_converter(uint32_t a);
-uint64_t		lb_converter64(uint64_t a);
+// uint32_t		lb_converter(uint32_t a);
+// uint64_t		lb_converter64(uint64_t a);
 
 /*
 ** common.c

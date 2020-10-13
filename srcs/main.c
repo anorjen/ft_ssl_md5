@@ -6,21 +6,21 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 21:52:22 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 12:02:04 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 const t_hash	g_hashs[] = {
-	{"md5", md5_calc, MD5_OUTPUT_SIZE},
-	{"sha256", sha256_calc, SHA256_OUTPUT_SIZE},
-	{"sha224", sha224_calc, SHA224_OUTPUT_SIZE},
-	{"sha512", sha512_calc, SHA512_OUTPUT_SIZE},
-	{"sha384", sha384_calc, SHA384_OUTPUT_SIZE},
-	{"sha512-224", sha512_224_calc, SHA512_224_OUTPUT_SIZE},
-	{"sha512-256", sha512_256_calc, SHA512_256_OUTPUT_SIZE},
-	{NULL, NULL, 0}
+	{"md5", md5_calc, MD5_OUTPUT_SIZE, MD5_BLOCK_SIZE, MD5_OUTPUT_BLOCK_AMOUNT, NULL},
+	{"sha256", sha256_calc, SHA256_OUTPUT_SIZE, SHA256_BLOCK_SIZE, SHA256_OUTPUT_BLOCK_AMOUNT, g_sha256_init},
+	{"sha224", sha256_calc, SHA224_OUTPUT_SIZE, SHA256_BLOCK_SIZE, SHA224_OUTPUT_BLOCK_AMOUNT, g_sha224_init},
+	{"sha512", sha512_calc, SHA512_OUTPUT_SIZE, SHA512_BLOCK_SIZE, SHA512_OUTPUT_BLOCK_AMOUNT, g_sha512_init},
+	{"sha384", sha512_calc, SHA384_OUTPUT_SIZE, SHA512_BLOCK_SIZE, SHA384_OUTPUT_BLOCK_AMOUNT, g_sha384_init},
+	{"sha512-224", sha512_calc, SHA512_224_OUTPUT_SIZE, SHA512_BLOCK_SIZE, SHA512_224_OUTPUT_BLOCK_AMOUNT, g_sha512_224_init},
+	{"sha512-256", sha512_calc, SHA512_256_OUTPUT_SIZE, SHA512_BLOCK_SIZE, SHA512_256_OUTPUT_BLOCK_AMOUNT, g_sha512_256_init},
+	{NULL, NULL, 0, 0, 0, NULL}
 };
 
 static int	read_flags(int ac, char **av)
@@ -80,15 +80,14 @@ static void	read_args(int ac, char **av)
 	g_ssl->datalist = datalist;
 }
 
-static int	hash_calc(t_data *data, uint8_t *(*calc_func)(t_data *),
-						size_t output_size)
+static int	hash_calc(t_data *data, const t_hash *hash_handler)
 {
 	uint8_t	*hash;
 
-	hash = calc_func(data);
+	hash = hash_handler->t_function(data, hash_handler);
 	if (hash == NULL)
 		return (1);
-	data->hash = hash_to_string(hash, output_size);
+	data->hash = hash_to_string(hash, hash_handler->output_size);
 	free(hash);
 	return (0);
 }
@@ -114,8 +113,7 @@ static void	input_handler(void)
 	input = g_ssl->datalist;
 	while (input)
 	{
-		hash_calc((t_data*)(input->content), hash_handler->function,
-							hash_handler->output_size);
+		hash_calc((t_data*)(input->content), hash_handler);
 		input = input->next;
 	}
 }

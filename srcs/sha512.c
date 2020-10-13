@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/09 21:29:01 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 12:19:34 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,25 @@ const uint64_t	g_sha512_init[8] = {
 	0x1f83d9abfb41bd6b, 0x5be0cd19137e2179
 };
 
-t_sha512	*sha512_init(const uint64_t sha_init[])
+const uint64_t	g_sha384_init[8] = {
+	0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17,
+	0x152fecd8f70e5939, 0x67332667ffc00b31, 0x8eb44a8768581511,
+	0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4
+};
+
+const uint64_t	g_sha512_224_init[8] = {
+	0x8C3D37C819544DA2, 0x73E1996689DCD4D6, 0x1DFAB7AE32FF9C82,
+	0x679DD514582F9FCF, 0x0F6D2B697BD44DA8, 0x77E36F7304C48942,
+	0x3F9D85A86A1D36C8, 0x1112E6AD91D692A1
+};
+
+const uint64_t	g_sha512_256_init[8] = {
+	0x22312194FC2BF72C, 0x9F555FA3C84C64C2, 0x2393B86B6F53B151,
+	0x963877195940EABD, 0x96283EE2A88EFFE3, 0xBE5E1E2553863992,
+	0x2B0199FC2C85B8AA, 0x0EB72DDC81C52CA2
+};
+
+static t_sha512	*sha512_init(const uint64_t sha_init[])
 {
 	int			i;
 	t_sha512	*e;
@@ -61,7 +79,7 @@ t_sha512	*sha512_init(const uint64_t sha_init[])
 	return (e);
 }
 
-void		sha512_process_block(t_sha512 *e)
+static void		sha512_process_block(t_sha512 *e)
 {
 	ssize_t			i;
 	uint64_t		temp1;
@@ -85,7 +103,7 @@ void		sha512_process_block(t_sha512 *e)
 	}
 }
 
-void		sha512_process(t_sha512 *e, void *input, uint64_t size)
+static void		sha512_process(t_sha512 *e, void *input, uint64_t size)
 {
 	uint8_t	*temp;
 	uint8_t	*end;
@@ -107,7 +125,7 @@ void		sha512_process(t_sha512 *e, void *input, uint64_t size)
 	}
 }
 
-uint8_t	*sha512_finish(t_sha512 *e, size_t block_amount)
+static uint8_t	*sha512_finish(t_sha512 *e, size_t block_amount)
 {
 	uint8_t	*hash;
 	size_t	i;
@@ -124,7 +142,7 @@ uint8_t	*sha512_finish(t_sha512 *e, size_t block_amount)
 	return (hash);
 }
 
-uint8_t			*sha512_calc(t_data *data)
+uint8_t			*sha512_calc(t_data *data, const t_hash *hash_handler)
 {
 	t_sha512	*e;
 	ssize_t		ret;
@@ -132,7 +150,7 @@ uint8_t			*sha512_calc(t_data *data)
 	uint8_t		*place;
 	uint8_t		*end;
 
-	e = sha512_init(g_sha512_init);
+	e = sha512_init(hash_handler->init_h);
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
 	{
 		sha512_process(e, buf, READ_BLOCK_SIZE);
@@ -141,11 +159,12 @@ uint8_t			*sha512_calc(t_data *data)
 	if (ret == -1)
 		return (NULL);
 	data->length += ret;
-	place = (uint8_t*)malloc(ret + 150);
+	if ((place = (uint8_t*)malloc(ret + 150)) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
 	memcpy((void*)(place), (void*)(buf), ret);
-	end = sha512_append_padding_bits((void*)place, ret, SHA512_BLOCK_SIZE);
+	end = sha512_append_padding_bits((void*)place, ret, hash_handler->block_size);
 	end = sha512_append_length(end, data->length, SHA512_ENDIAN);
 	sha512_process(e, place, (end - place));
 	free(place);
-	return (sha512_finish(e, 8));
+	return (sha512_finish(e, hash_handler->block_amount));
 }
