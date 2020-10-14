@@ -6,20 +6,27 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 12:02:04 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 18:04:49 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 const t_hash	g_hashs[] = {
-	{"md5", md5_calc, MD5_OUTPUT_SIZE, MD5_BLOCK_SIZE, MD5_OUTPUT_BLOCK_AMOUNT, NULL},
-	{"sha256", sha256_calc, SHA256_OUTPUT_SIZE, SHA256_BLOCK_SIZE, SHA256_OUTPUT_BLOCK_AMOUNT, g_sha256_init},
-	{"sha224", sha256_calc, SHA224_OUTPUT_SIZE, SHA256_BLOCK_SIZE, SHA224_OUTPUT_BLOCK_AMOUNT, g_sha224_init},
-	{"sha512", sha512_calc, SHA512_OUTPUT_SIZE, SHA512_BLOCK_SIZE, SHA512_OUTPUT_BLOCK_AMOUNT, g_sha512_init},
-	{"sha384", sha512_calc, SHA384_OUTPUT_SIZE, SHA512_BLOCK_SIZE, SHA384_OUTPUT_BLOCK_AMOUNT, g_sha384_init},
-	{"sha512-224", sha512_calc, SHA512_224_OUTPUT_SIZE, SHA512_BLOCK_SIZE, SHA512_224_OUTPUT_BLOCK_AMOUNT, g_sha512_224_init},
-	{"sha512-256", sha512_calc, SHA512_256_OUTPUT_SIZE, SHA512_BLOCK_SIZE, SHA512_256_OUTPUT_BLOCK_AMOUNT, g_sha512_256_init},
+	{"md5", md5_calc, MD5_OUTPUT_SIZE, MD5_BLOCK_SIZE,
+		MD5_OUTPUT_BLOCK_AMOUNT, NULL},
+	{"sha256", sha256_calc, SHA256_OUTPUT_SIZE, SHA256_BLOCK_SIZE,
+		SHA256_OUTPUT_BLOCK_AMOUNT, g_sha256_init},
+	{"sha224", sha256_calc, SHA224_OUTPUT_SIZE, SHA256_BLOCK_SIZE,
+		SHA224_OUTPUT_BLOCK_AMOUNT, g_sha224_init},
+	{"sha512", sha512_calc, SHA512_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+		SHA512_OUTPUT_BLOCK_AMOUNT, g_sha512_init},
+	{"sha384", sha512_calc, SHA384_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+		SHA384_OUTPUT_BLOCK_AMOUNT, g_sha384_init},
+	{"sha512-224", sha512_calc, SHA512_224_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+		SHA512_224_OUTPUT_BLOCK_AMOUNT, g_sha512_224_init},
+	{"sha512-256", sha512_calc, SHA512_256_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+		SHA512_256_OUTPUT_BLOCK_AMOUNT, g_sha512_256_init},
 	{NULL, NULL, 0, 0, 0, NULL}
 };
 

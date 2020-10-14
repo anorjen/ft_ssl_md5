@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 19:11:20 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 18:02:44 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,8 @@ uint8_t			*sha512_calc(t_data *data, const t_hash *hash_handler)
 	if ((place = (uint8_t*)malloc(ret + 150)) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
 	ft_memcpy((void*)(place), (void*)(buf), ret);
-	end = sha512_append_padding_bits((void*)place, ret, hash_handler->block_size);
+	end = sha512_append_padding_bits((void*)place, ret,
+													hash_handler->block_size);
 	end = sha512_append_length(end, data->length, SHA512_ENDIAN);
 	sha512_process(e, place, (end - place));
 	free(place);

@@ -6,17 +6,17 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 13:05:53 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 13:15:46 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 19:02:25 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_dlist.h"
 
-t_dlist	*ft_dlist_new_elem(void *content, size_t content_size, char save_pointers)
+t_dlist	*ft_dlist_new_elem(void *content, size_t content_size, char save_ptrs)
 {
 	t_dlist	*res;
 
-	if (save_pointers)
+	if (save_ptrs)
 	{
 		res = ft_memalloc(sizeof(t_dlist));
 		if (res)

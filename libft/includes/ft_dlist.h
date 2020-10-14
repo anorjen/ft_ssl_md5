@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 21:30:51 by mgorczan          #+#    #+#             */
-/*   Updated: 2020/10/02 13:16:05 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 19:03:13 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ size_t				ft_dlist_size(t_dlist *lst);
 t_dlist				*ft_dlist_rewind(t_dlist *dlist);
 void				ft_dlist_delone(t_dlist **lst, void (*del)(void *));
 void				ft_dlist_del(t_dlist **lst, void (*del)(void *));
-t_dlist				*ft_dlist_new_elem(void *content, size_t content_size, char save_pointers);
+t_dlist				*ft_dlist_new_elem(void *content, size_t content_size,
+															char save_pointers);
 
 #endif

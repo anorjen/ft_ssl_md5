@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 12:11:00 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 18:08:32 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ uint8_t			*sha512_calc(t_data *data, const t_hash *hash_handler);
 */
 
 void			sha512_generate_w(uint64_t w[], uint64_t block[]);
-void			*sha512_append_padding_bits(void *input, uint64_t size, int block_size);
-void			*sha512_append_length(void *end, uint64_t size, int endian_type);
+void			*sha512_append_padding_bits(void *input, uint64_t size,
+															int block_size);
+void			*sha512_append_length(void *end, uint64_t size,
+															int endian_type);
 
 #endif

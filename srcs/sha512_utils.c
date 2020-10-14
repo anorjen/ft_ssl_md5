@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 13:00:13 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 19:11:13 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 18:56:36 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	sha512_generate_w(uint64_t w[], uint64_t block[])
 
 	i = -1;
 	while (++i < 16)
-		w[i] = (endian() == SHA512_ENDIAN ? block[i] : LB_CONV64(block[i]));
+		w[i] = (endian() == SHA512_ENDIAN ? block[i] : lb_conv8(block[i]));
 	i = 15;
 	while (++i < 80)
 		w[i] = w[i - 16] + SHA512_D0(w[i - 15]) + w[i - 7]

@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 12:08:50 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 18:06:18 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ extern const uint32_t	g_sha256_init[];
 extern const uint32_t	g_sha224_init[];
 
 uint8_t			*sha224_calc(t_data *data);
-
 uint8_t			*sha256_calc(t_data *data, const t_hash *hash_handler);
-
 void			sha256_generate_w(uint32_t w[], uint32_t block[]);
-
 
 #endif
