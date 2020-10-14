@@ -6,13 +6,13 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 19:55:18 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 18:03:02 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sha256.h"
 
-const uint32_t	g_k[64] = {
+const uint32_t	g_sha256_k[64] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1,
 	0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
 	0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786,
@@ -26,27 +26,42 @@ const uint32_t	g_k[64] = {
 	0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 };
 
-const uint32_t	g_h_init[8] = {
+const uint32_t	g_sha256_init[8] = {
 	0x6a09e667UL, 0xbb67ae85UL, 0x3c6ef372UL, 0xa54ff53aUL,
 	0x510e527fUL, 0x9b05688cUL, 0x1f83d9abUL, 0x5be0cd19UL
 };
 
-static void			process_block(t_sha256 *e)
+const uint32_t	g_sha224_init[8] = {
+	0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939,
+	0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4
+};
+
+static t_sha256		*sha256_init(const uint32_t sha_init[])
+{
+	int			i;
+	t_sha256	*e;
+
+	if ((e = (t_sha256 *)malloc(sizeof(t_sha256))) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
+	i = -1;
+	while (++i < 8)
+		e->h[i] = sha_init[i];
+	return (e);
+}
+
+static void			sha256_process_block(t_sha256 *e)
 {
 	ssize_t			i;
 	uint32_t		temp1;
 	uint32_t		temp2;
 
-	generate_w(e);
+	sha256_generate_w(e->w, e->block);
 	i = -1;
 	while (++i < 64)
 	{
-		temp1 = e->hh[7] + (rotate_right(e->hh[4], 6)
-		^ rotate_right(e->hh[4], 11) ^ rotate_right(e->hh[4], 25))
-		+ ((e->hh[4] & e->hh[5]) ^ (~(e->hh[4]) & e->hh[6])) + g_k[i] + g_w[i];
-		temp2 = (rotate_right(e->hh[0], 2) ^ rotate_right(e->hh[0], 13)
-		^ rotate_right(e->hh[0], 22)) + ((e->hh[0] & e->hh[1])
-		^ (e->hh[0] & e->hh[2]) ^ (e->hh[1] & e->hh[2]));
+		temp1 = e->hh[7] + SHA256_S1(e->hh[4])
+		+ SHA256_CH(e->hh[4], e->hh[5], e->hh[6]) + g_sha256_k[i] + e->w[i];
+		temp2 = SHA256_S0(e->hh[0]) + SHA256_MAJ(e->hh[0], e->hh[1], e->hh[2]);
 		e->hh[7] = e->hh[6];
 		e->hh[6] = e->hh[5];
 		e->hh[5] = e->hh[4];
@@ -58,7 +73,7 @@ static void			process_block(t_sha256 *e)
 	}
 }
 
-static void			process(t_sha256 *e, void *input, uint64_t size)
+static void			sha256_process(t_sha256 *e, void *input, uint64_t size)
 {
 	uint8_t	*temp;
 	uint8_t	*end;
@@ -71,8 +86,8 @@ static void			process(t_sha256 *e, void *input, uint64_t size)
 		i = -1;
 		while (++i < 8)
 			e->hh[i] = e->h[i];
-		memcpy(&(e->block), (void*)(temp), SHA256_BLOCK_SIZE);
-		process_block(e);
+		ft_memcpy(&(e->block), (void*)(temp), SHA256_BLOCK_SIZE);
+		sha256_process_block(e);
 		i = -1;
 		while (++i < 8)
 			e->h[i] += e->hh[i];
@@ -80,24 +95,24 @@ static void			process(t_sha256 *e, void *input, uint64_t size)
 	}
 }
 
-static uint8_t		*finish(t_sha256 *e)
+static uint8_t		*sha256_finish(t_sha256 *e, size_t block_amount)
 {
 	uint8_t	*hash;
-	int		i;
+	size_t	i;
 
-	if ((hash = (uint8_t*)malloc(32)) != NULL)
+	if ((hash = (uint8_t*)malloc(block_amount * sizeof(uint32_t))) != NULL)
 	{
 		i = -1;
-		while (++i < 8)
+		while (++i < block_amount)
 		{
-			u32_to_u8(hash, e->h[i], i, B_ENDIAN);
+			u32_to_u8(hash, e->h[i], i, SHA256_ENDIAN);
 		}
 	}
 	free(e);
 	return (hash);
 }
 
-static uint8_t		*sha256_calc(t_data *data)
+uint8_t				*sha256_calc(t_data *data, const t_hash *hash_handler)
 {
 	t_sha256	*e;
 	ssize_t		ret;
@@ -105,32 +120,21 @@ static uint8_t		*sha256_calc(t_data *data)
 	uint8_t		*place;
 	uint8_t		*end;
 
-	e = sha256_init();
+	e = sha256_init(hash_handler->init_h);
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
 	{
-		process(e, buf, READ_BLOCK_SIZE);
+		sha256_process(e, buf, READ_BLOCK_SIZE);
 		data->length += READ_BLOCK_SIZE;
 	}
 	if (ret == -1)
 		return (NULL);
 	data->length += ret;
-	place = (uint8_t*)malloc(ret + 100);
-	memcpy((void*)(place), (void*)(buf), ret);
-	end = append_padding_bits((void*)place, ret, SHA256_BLOCK_SIZE);
-	end = append_length(end, data->length, B_ENDIAN);
-	process(e, place, (end - place));
+	if ((place = (uint8_t*)malloc(ret + 100)) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
+	ft_memcpy((void*)(place), (void*)(buf), ret);
+	end = append_padding_bits((void*)place, ret, hash_handler->block_size);
+	end = append_length(end, data->length, SHA256_ENDIAN);
+	sha256_process(e, place, (end - place));
 	free(place);
-	return (finish(e));
-}
-
-int					sha256(t_data *data)
-{
-	uint8_t	*hash;
-
-	hash = sha256_calc(data);
-	if (hash == NULL)
-		return (1);
-	data->hash = hash_to_string(hash, SHA256_OUTPUT_SIZE);
-	free(hash);
-	return (0);
+	return (sha256_finish(e, hash_handler->block_amount));
 }

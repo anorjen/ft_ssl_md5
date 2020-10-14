@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:56 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/06 14:14:35 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/13 18:52:23 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,7 @@
 
 # include "md5.h"
 # include "sha256.h"
-
-typedef int	(*t_function)(t_data *data);
-
-typedef struct	s_hash
-{
-	char		*name;
-	t_function	function;
-}				t_hash;
+# include "sha512.h"
 
 extern const t_hash	g_hashs[];
 

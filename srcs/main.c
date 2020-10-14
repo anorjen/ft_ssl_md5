@@ -6,19 +6,31 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/07 16:48:47 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 18:04:49 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-const t_hash	g_hashs[3] = {
-	{"md5", md5},
-	{"sha256", sha256},
-	{NULL, NULL}
+const t_hash	g_hashs[] = {
+	{"md5", md5_calc, MD5_OUTPUT_SIZE, MD5_BLOCK_SIZE,
+		MD5_OUTPUT_BLOCK_AMOUNT, NULL},
+	{"sha256", sha256_calc, SHA256_OUTPUT_SIZE, SHA256_BLOCK_SIZE,
+		SHA256_OUTPUT_BLOCK_AMOUNT, g_sha256_init},
+	{"sha224", sha256_calc, SHA224_OUTPUT_SIZE, SHA256_BLOCK_SIZE,
+		SHA224_OUTPUT_BLOCK_AMOUNT, g_sha224_init},
+	{"sha512", sha512_calc, SHA512_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+		SHA512_OUTPUT_BLOCK_AMOUNT, g_sha512_init},
+	{"sha384", sha512_calc, SHA384_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+		SHA384_OUTPUT_BLOCK_AMOUNT, g_sha384_init},
+	{"sha512-224", sha512_calc, SHA512_224_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+		SHA512_224_OUTPUT_BLOCK_AMOUNT, g_sha512_224_init},
+	{"sha512-256", sha512_calc, SHA512_256_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+		SHA512_256_OUTPUT_BLOCK_AMOUNT, g_sha512_256_init},
+	{NULL, NULL, 0, 0, 0, NULL}
 };
 
-static int		read_flags(int ac, char **av)
+static int	read_flags(int ac, char **av)
 {
 	int		i;
 
@@ -47,7 +59,7 @@ static int		read_flags(int ac, char **av)
 	return (i);
 }
 
-static void		read_args(int ac, char **av)
+static void	read_args(int ac, char **av)
 {
 	int		i;
 	t_dlist	*datalist;
@@ -75,33 +87,45 @@ static void		read_args(int ac, char **av)
 	g_ssl->datalist = datalist;
 }
 
-static void		input_handler(void)
+static int	hash_calc(t_data *data, const t_hash *hash_handler)
 {
-	int			i;
-	t_function	func;
-	t_dlist		*input;
+	uint8_t	*hash;
 
-	func = NULL;
+	hash = hash_handler->t_function(data, hash_handler);
+	if (hash == NULL)
+		return (1);
+	data->hash = hash_to_string(hash, hash_handler->output_size);
+	free(hash);
+	return (0);
+}
+
+static void	input_handler(void)
+{
+	int				i;
+	t_dlist			*input;
+	const t_hash	*hash_handler;
+
+	hash_handler = NULL;
 	i = -1;
 	while (g_hashs[++i].name)
 	{
 		if (ft_strcmp(g_hashs[i].name, g_ssl->hash_type) == 0)
 		{
-			func = g_hashs[i].function;
+			hash_handler = &(g_hashs[i]);
 			break ;
 		}
 	}
-	if (!func)
+	if (!hash_handler)
 		ft_fatal_error("Hash type not supported!", 0);
 	input = g_ssl->datalist;
 	while (input)
 	{
-		(func)((t_data*)(input->content));
+		hash_calc((t_data*)(input->content), hash_handler);
 		input = input->next;
 	}
 }
 
-int				main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	if (ac < 2)
 	{

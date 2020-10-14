@@ -6,14 +6,14 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 12:52:55 by agottlie          #+#    #+#             */
-/*   Updated: 2020/10/02 17:35:02 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 19:00:50 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-#include <stdint.h>
+# include <stdint.h>
 # include <unistd.h>
 # include <string.h>
 # include <stdlib.h>

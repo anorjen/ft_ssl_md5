@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 17:33:30 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/02 17:47:50 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/14 19:00:38 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_write_upper(int fd, char *str, size_t size)
 	size_t	i;
 	char	*str_upper;
 
-	if((str_upper = ft_strnew(size)) != NULL)
+	if ((str_upper = ft_strnew(size)) != NULL)
 	{
 		i = -1;
 		while (++i < size)
