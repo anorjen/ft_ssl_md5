@@ -6,11 +6,11 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 13:07:52 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/06 12:52:01 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/29 19:24:08 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "common.h"
+#include "hash_common.h"
 
 static void	ft_print_data_error(t_data *data)
 {
@@ -50,7 +50,7 @@ static void	ft_print_right(t_data *data)
 {
 	if (data->type != (t_input)IN_STDIN)
 	{
-		ft_write_upper(1, g_ssl->hash_type, ft_strlen(g_ssl->hash_type));
+		ft_write_upper(1, g_ssl->alg, ft_strlen(g_ssl->alg));
 		write(1, " (", 2);
 		ft_print_data_name(data);
 		write(1, ") = ", 4);

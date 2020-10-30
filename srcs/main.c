@@ -6,28 +6,43 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:04:49 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/30 18:12:32 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-const t_hash	g_hashs[] = {
-	{"md5", md5_calc, MD5_OUTPUT_SIZE, MD5_BLOCK_SIZE,
-		MD5_OUTPUT_BLOCK_AMOUNT, NULL},
-	{"sha256", sha256_calc, SHA256_OUTPUT_SIZE, SHA256_BLOCK_SIZE,
-		SHA256_OUTPUT_BLOCK_AMOUNT, g_sha256_init},
-	{"sha224", sha256_calc, SHA224_OUTPUT_SIZE, SHA256_BLOCK_SIZE,
-		SHA224_OUTPUT_BLOCK_AMOUNT, g_sha224_init},
-	{"sha512", sha512_calc, SHA512_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
-		SHA512_OUTPUT_BLOCK_AMOUNT, g_sha512_init},
-	{"sha384", sha512_calc, SHA384_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
-		SHA384_OUTPUT_BLOCK_AMOUNT, g_sha384_init},
-	{"sha512-224", sha512_calc, SHA512_224_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
-		SHA512_224_OUTPUT_BLOCK_AMOUNT, g_sha512_224_init},
-	{"sha512-256", sha512_calc, SHA512_256_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
-		SHA512_256_OUTPUT_BLOCK_AMOUNT, g_sha512_256_init},
-	{NULL, NULL, 0, 0, 0, NULL}
+// const t_hash	g_hashs[] = {
+// 	{"md5", md5_calc, MD5_OUTPUT_SIZE, MD5_BLOCK_SIZE,
+// 		MD5_OUTPUT_BLOCK_AMOUNT, NULL},
+// 	{"sha256", sha256_calc, SHA256_OUTPUT_SIZE, SHA256_BLOCK_SIZE,
+// 		SHA256_OUTPUT_BLOCK_AMOUNT, g_sha256_init},
+// 	{"sha224", sha256_calc, SHA224_OUTPUT_SIZE, SHA256_BLOCK_SIZE,
+// 		SHA224_OUTPUT_BLOCK_AMOUNT, g_sha224_init},
+// 	{"sha512", sha512_calc, SHA512_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+// 		SHA512_OUTPUT_BLOCK_AMOUNT, g_sha512_init},
+// 	{"sha384", sha512_calc, SHA384_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+// 		SHA384_OUTPUT_BLOCK_AMOUNT, g_sha384_init},
+// 	{"sha512-224", sha512_calc, SHA512_224_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+// 		SHA512_224_OUTPUT_BLOCK_AMOUNT, g_sha512_224_init},
+// 	{"sha512-256", sha512_calc, SHA512_256_OUTPUT_SIZE, SHA512_BLOCK_SIZE,
+// 		SHA512_256_OUTPUT_BLOCK_AMOUNT, g_sha512_256_init},
+// 	{NULL, NULL, 0, 0, 0, NULL}
+// };
+
+const t_handler	g_handlers[] = {
+	{"md5", "hash", hash_handler},
+	{"sha256", "hash", hash_handler},
+	{"sha224", "hash", hash_handler},
+	{"sha512", "hash", hash_handler},
+	{"sha384", "hash", hash_handler},
+	{"sha512-224", "hash", hash_handler},
+	{"sha512-256", "hash", hash_handler},
+	// {"base64", "cipher", base64},
+	// {"des", "cipher", des_cbc},
+	// {"des-ecb", "cipher", des_ecb},
+	// {"des-cbc", "cipher", des_cbc},
+	{NULL, NULL, NULL}
 };
 
 static int	read_flags(int ac, char **av)
@@ -67,7 +82,7 @@ static void	read_args(int ac, char **av)
 	datalist = NULL;
 	if ((g_ssl = (t_ssl*)malloc(sizeof(t_ssl))) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
-	g_ssl->hash_type = av[1];
+	g_ssl->alg = av[1];
 	i = read_flags(ac, av);
 	if ((i == ac && !(g_ssl->s_flag)) || g_ssl->p_flag)
 		ft_dlist_addback(&datalist, ft_dlist_new_elem(
@@ -87,42 +102,24 @@ static void	read_args(int ac, char **av)
 	g_ssl->datalist = datalist;
 }
 
-static int	hash_calc(t_data *data, const t_hash *hash_handler)
-{
-	uint8_t	*hash;
-
-	hash = hash_handler->t_function(data, hash_handler);
-	if (hash == NULL)
-		return (1);
-	data->hash = hash_to_string(hash, hash_handler->output_size);
-	free(hash);
-	return (0);
-}
-
 static void	input_handler(void)
 {
 	int				i;
-	t_dlist			*input;
-	const t_hash	*hash_handler;
+	t_process		handler;
 
-	hash_handler = NULL;
+	handler = NULL;
 	i = -1;
-	while (g_hashs[++i].name)
+	while (g_handlers[++i].name)
 	{
-		if (ft_strcmp(g_hashs[i].name, g_ssl->hash_type) == 0)
+		if (ft_strcmp(g_handlers[i].name, g_ssl->alg) == 0)
 		{
-			hash_handler = &(g_hashs[i]);
+			handler = g_handlers[i].process;
 			break ;
 		}
 	}
-	if (!hash_handler)
-		ft_fatal_error("Hash type not supported!", 0);
-	input = g_ssl->datalist;
-	while (input)
-	{
-		hash_calc((t_data*)(input->content), hash_handler);
-		input = input->next;
-	}
+	if (!handler)
+		ft_fatal_error(ft_strjoin(g_ssl->alg, " not supported!"), 1);
+	handler(g_ssl);
 }
 
 int			main(int ac, char **av)
@@ -133,7 +130,6 @@ int			main(int ac, char **av)
 	}
 	read_args(ac, av);
 	input_handler();
-	ft_print(g_ssl->datalist);
 	ft_clean();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:01:12 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/30 18:47:21 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ static void		process(t_md5 *e, void *input, uint64_t size)
 	}
 }
 
-static uint8_t	*finish(t_md5 *e)
+static char	*finish(t_md5 *e)
 {
 	uint8_t	*hash;
+	char	*str;
 	int		i;
 
 	if ((hash = (uint8_t*)malloc(32)) != NULL)
@@ -94,10 +95,14 @@ static uint8_t	*finish(t_md5 *e)
 		}
 	}
 	free(e);
-	return (hash);
+	if (hash == NULL)
+		return (NULL);
+	str = hash_to_string(hash, MD5_OUTPUT_SIZE);
+	free(hash);
+	return (str);
 }
 
-uint8_t			*md5_calc(t_data *data, const t_hash *hash_handler)
+char			*md5_calc(t_data *data, const t_hash *hash)
 {
 	t_md5		*e;
 	ssize_t		ret;
@@ -105,7 +110,6 @@ uint8_t			*md5_calc(t_data *data, const t_hash *hash_handler)
 	uint8_t		*place;
 	uint8_t		*end;
 
-	(void)hash_handler;
 	e = md5_init();
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
 	{
@@ -118,7 +122,7 @@ uint8_t			*md5_calc(t_data *data, const t_hash *hash_handler)
 	if ((place = (uint8_t*)malloc(ret + 100)) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
 	ft_memcpy((void*)(place), (void*)(buf), ret);
-	end = append_padding_bits((void*)place, ret, MD5_BLOCK_SIZE);
+	end = append_padding_bits((void*)place, ret, hash->block_size);
 	end = append_length(end, data->length, MD5_ENDIAN);
 	process(e, place, (end - place));
 	free(place);

@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:07:28 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/30 18:47:28 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <stdint.h>
 # include "libft.h"
-# include "common.h"
+# include "hash_common.h"
 
 # define MD5_ENDIAN L_ENDIAN
 # define MD5_BLOCK_SIZE 64
@@ -36,7 +36,7 @@ typedef struct	s_md5
 extern const uint32_t	g_t[];
 extern const uint32_t	g_s[];
 
-uint8_t			*md5_calc(t_data *data, const t_hash *hash_handler);
+char			*md5_calc(t_data *data, const t_hash *hash);
 
 /*
 **	md5_utils.c

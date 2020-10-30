@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   common.c                                           :+:      :+:    :+:   */
+/*   hash_common.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 19:07:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:30:37 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/29 16:32:20 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "common.h"
+#include "hash_common.h"
 
 void	*append_padding_bits(void *input, uint64_t size, int block_size)
 {

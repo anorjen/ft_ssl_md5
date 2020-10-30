@@ -6,11 +6,11 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 18:51:09 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/13 12:15:52 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/29 16:32:09 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "common.h"
+#include "hash_common.h"
 
 t_data	*new_data(char *name, int type)
 {

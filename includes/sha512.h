@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:08:32 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/30 18:46:20 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <stdint.h>
 # include "libft.h"
-# include "common.h"
+# include "hash_common.h"
 
 # define SHA512_ENDIAN B_ENDIAN
 # define SHA512_BLOCK_SIZE 128
@@ -58,11 +58,7 @@ extern const uint64_t	g_sha384_init[];
 extern const uint64_t	g_sha512_224_init[];
 extern const uint64_t	g_sha512_256_init[];
 
-uint8_t			*sha512_256_calc(t_data *data);
-uint8_t			*sha512_224_calc(t_data *data);
-uint8_t			*sha384_calc(t_data *data);
-
-uint8_t			*sha512_calc(t_data *data, const t_hash *hash_handler);
+char			*sha512_calc(t_data *data, const t_hash *hash);
 
 /*
 ** sha512_utils.c

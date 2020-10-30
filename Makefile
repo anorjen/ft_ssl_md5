@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/10/13 23:44:10 by anorjen          ###   ########.fr        #
+#    Updated: 2020/10/30 18:32:38 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ LIBFT = $(LIBFT_DIRECTORY)libft.a
 LIBFT_DIRECTORY = ./libft/
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)/includes
 
-HEADERS_LIST = 	common.h \
+HEADERS_LIST = 	hash_common.h \
+				common.h \
 				main.h \
 				md5.h \
 				sha256.h \
@@ -37,13 +38,14 @@ SOURCES_LIST = 	ft_data.c \
 				main.c \
 				read_data.c \
 				utils.c \
-				common.c \
 				md5.c \
 				md5_utils.c \
 				sha256.c \
 				sha256_utils.c \
 				sha512.c \
-				sha512_utils.c
+				sha512_utils.c \
+				hash_common.c \
+				hash_handler.c
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 

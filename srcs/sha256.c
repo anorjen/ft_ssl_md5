@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:03:02 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/30 18:48:01 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,12 @@ static void			sha256_process(t_sha256 *e, void *input, uint64_t size)
 	}
 }
 
-static uint8_t		*sha256_finish(t_sha256 *e, size_t block_amount)
+static char		*sha256_finish(t_sha256 *e, size_t block_amount,
+															size_t out_size)
 {
 	uint8_t	*hash;
 	size_t	i;
+	char	*str;
 
 	if ((hash = (uint8_t*)malloc(block_amount * sizeof(uint32_t))) != NULL)
 	{
@@ -109,10 +111,14 @@ static uint8_t		*sha256_finish(t_sha256 *e, size_t block_amount)
 		}
 	}
 	free(e);
-	return (hash);
+	if (hash == NULL)
+		return (NULL);
+	str = hash_to_string(hash, out_size);
+	free(hash);
+	return (str);
 }
 
-uint8_t				*sha256_calc(t_data *data, const t_hash *hash_handler)
+char			*sha256_calc(t_data *data, const t_hash *hash)
 {
 	t_sha256	*e;
 	ssize_t		ret;
@@ -120,7 +126,7 @@ uint8_t				*sha256_calc(t_data *data, const t_hash *hash_handler)
 	uint8_t		*place;
 	uint8_t		*end;
 
-	e = sha256_init(hash_handler->init_h);
+	e = sha256_init(hash->init);
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
 	{
 		sha256_process(e, buf, READ_BLOCK_SIZE);
@@ -132,9 +138,9 @@ uint8_t				*sha256_calc(t_data *data, const t_hash *hash_handler)
 	if ((place = (uint8_t*)malloc(ret + 100)) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
 	ft_memcpy((void*)(place), (void*)(buf), ret);
-	end = append_padding_bits((void*)place, ret, hash_handler->block_size);
-	end = append_length(end, data->length, SHA256_ENDIAN);
+	end = append_padding_bits((void*)place, ret, hash->block_size);
+	end = append_length(end, data->length, B_ENDIAN);
 	sha256_process(e, place, (end - place));
 	free(place);
-	return (sha256_finish(e, hash_handler->block_amount));
+	return (sha256_finish(e, 8, hash->out_size));
 }

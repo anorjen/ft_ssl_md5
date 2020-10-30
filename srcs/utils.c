@@ -6,11 +6,11 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 14:19:19 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 19:10:39 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/10/29 16:32:26 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "common.h"
+#include "hash_common.h"
 
 void		ft_swap(uint8_t *one, uint8_t *two)
 {
