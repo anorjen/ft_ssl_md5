@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:42:54 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/30 18:42:46 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/07 22:21:58 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static const t_hash	*find_hash(t_ssl *ssl)
 	i = -1;
 	while(g_hashs[++i].name)
 	{
-		if (ft_strcmp(g_hashs[i].name, ssl->alg) == 0)
+		if (ft_strcmp(g_hashs[i].name, ssl->handler->name) == 0)
 			return (&(g_hashs[i]));
 	}
 	ft_fatal_error("hash not supported!", 0);

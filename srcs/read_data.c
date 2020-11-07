@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 12:50:29 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/29 16:32:23 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/07 22:21:32 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static ssize_t	read_stdin(t_data *data, uint8_t *buf, ssize_t size)
 	}
 	else
 	{
-		if (g_ssl->p_flag)
+		if (IS_FLAG(g_ssl->flags, FLAG_P))
 		{
 			write(1, buf, length);
 			if (length < size)

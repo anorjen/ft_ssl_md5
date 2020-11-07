@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 18:49:13 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/29 19:20:28 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/07 22:13:14 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	ft_error(char *message)
 {
 	write(2, "ft_ssl: ", 8);
-	if (g_ssl && g_ssl->alg)
+	if (g_ssl && g_ssl->handler && g_ssl->handler->name)
 	{
-		write(2, g_ssl->alg, ft_strlen(g_ssl->alg));
+		write(2, g_ssl->handler->name, ft_strlen(g_ssl->handler->name));
 		write(2, ": ", 2);
 	}
 	write(2, message, ft_strlen(message));
@@ -27,9 +27,9 @@ void	ft_error(char *message)
 void	ft_fatal_error(char *message, int is_free)
 {
 	write(2, "ft_ssl: ", 8);
-	if (g_ssl && g_ssl->alg)
+	if (g_ssl && g_ssl->handler && g_ssl->handler->name)
 	{
-		write(2, g_ssl->alg, ft_strlen(g_ssl->alg));
+		write(2, g_ssl->handler->name, ft_strlen(g_ssl->handler->name));
 		write(2, ": ", 2);
 	}
 	if (message != NULL)
@@ -46,12 +46,26 @@ void	ft_fatal_error(char *message, int is_free)
 void	usage(void)
 {
 	write(1, "usage:\n", 7);
-	write(1,
-	"./ft_ssl [alg] -q|-p|-r|-s [string] [file1] [file2] [...]]\n", 65);
-	write(1, "	-q -- quiet ouput\n", 19);
-	write(1, "	-p -- STDIN to STDOUT\n", 23);
-	write(1, "	-r -- recursive ouput\n", 23);
-	write(1, "	-s -- calc string hash\n", 24);
+	// write(1,
+	// "./ft_ssl [alg] -q|-p|-r|-s [string] [file1] [file2] [...]]\n", 65);
+	// write(1, "	-q -- quiet ouput\n", 19);
+	// write(1, "	-p -- STDIN to STDOUT\n", 23);
+	// write(1, "	-r -- recursive ouput\n", 23);
+	// write(1, "	-s -- calc string hash\n", 24);
+
+	write(1, "Standard commands:\nMessage Digest commands:\n\
+	md5\n\
+	sha256\n\
+	sha224\n\
+	sha512\n\
+	sha384\n\
+	sha512-224\n\
+	sha512-256\n\
+	Cipher commands:\n\
+	base64\n\
+	des\n\
+	des-ecb\n\
+	des-cbc\n", 180);
 	exit(1);
 }
 
