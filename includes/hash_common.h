@@ -29,8 +29,6 @@ typedef struct	s_data
 	uint64_t	length;
 }				t_data;
 
-
-
 typedef struct	s_hash
 {
 	char		*name;

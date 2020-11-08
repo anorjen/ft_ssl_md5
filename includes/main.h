@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:56 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/07 22:19:51 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/08 17:24:52 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,20 @@ void	ft_print(t_dlist *datalist);
 ** hash_args.c
 */
 
-int		read_hash_flags(int ac, char **av);
 void	read_hash_args(int ac, char **av);
 
 /*
 ** cipher_args.c
 */
 
-int		read_cipher_flags(int ac, char **av);
 void	read_cipher_args(int ac, char **av);
+
+/*
+** base64.c
+*/
+
+void	base64(t_ssl *ssl);
+void	base64_encode(t_ssl *ssl);
+void	base64_decode(t_ssl *ssl);
 
 #endif

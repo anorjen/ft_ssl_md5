@@ -1,4 +1,4 @@
 *.o
-test1
 .vscode/*
 ft_ssl
+test*

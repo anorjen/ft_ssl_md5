@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/11/07 22:20:38 by anorjen          ###   ########.fr        #
+#    Updated: 2020/11/08 17:23:00 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,10 @@ SOURCES_LIST = 	ft_data.c \
 				hash_common.c \
 				hash_handler.c \
 				hash_args.c \
-				cipher_args.c
+				cipher_args.c \
+				base64.c \
+				base64_encode.c \
+				base64_decode.c
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 

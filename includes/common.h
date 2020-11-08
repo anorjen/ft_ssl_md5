@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 17:40:49 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/07 22:32:42 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/08 16:23:10 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef enum	e_input
 
 struct	s_ssl;
 
+typedef struct	s_cipher_flag
+{
+	char	*flag;
+	int		value;
+}				t_cipher_flag;
+
 typedef void	(*t_process)(struct s_ssl *ssl);
 
 typedef struct	s_handler
@@ -56,6 +62,12 @@ typedef struct	s_handler
 typedef struct	s_ssl
 {
 	int				flags;
+	char			*password;
+	char			*key;
+	char			*vector;
+	char			*salt;
+	char			*input;
+	char			*output;
 	t_dlist			*datalist;
 	const t_handler	*handler;
 }				t_ssl;

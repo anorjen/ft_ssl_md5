@@ -6,13 +6,13 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:01:05 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/07 21:27:20 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/08 15:12:35 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "main.h"
 
-int		read_hash_flags(int ac, char **av)
+static int	read_hash_flags(int ac, char **av)
 {
 	int		i;
 
@@ -41,7 +41,7 @@ int		read_hash_flags(int ac, char **av)
 	return (i);
 }
 
-void	read_hash_args(int ac, char **av)
+void		read_hash_args(int ac, char **av)
 {
 	int		i;
 	t_dlist	*datalist;
