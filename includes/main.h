@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:56 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/08 17:24:52 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/14 23:17:30 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ void	read_cipher_args(int ac, char **av);
 void	base64(t_ssl *ssl);
 void	base64_encode(t_ssl *ssl);
 void	base64_decode(t_ssl *ssl);
+int		trim_end(char *str, int size);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/11/08 17:23:00 by anorjen          ###   ########.fr        #
+#    Updated: 2020/11/14 23:23:05 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ $(NAME): $(LIBFT) $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@echo "\n$(NAME): $(GREEN)$(NAME) object files were created$(RESET)"
 	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 	@if [ -e fail_test_* ]; then rm fail_test_*; fi
-	@./test.sh
+	# @./test.sh
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)

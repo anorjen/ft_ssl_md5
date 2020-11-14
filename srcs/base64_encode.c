@@ -6,11 +6,12 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 16:31:20 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/08 19:01:45 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/15 00:39:41 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#define BLOCK_SIZE 900
 
 static void	process_block(char *ptr, char *str)
 {
@@ -46,7 +47,6 @@ static char	*process(char *str, int size)
 	if (mod)
 		free(str);
 	return (res);
-
 }
 
 static void	ft_print_cipher(t_ssl *ssl, char *res, int size)
@@ -61,11 +61,11 @@ static void	ft_print_cipher(t_ssl *ssl, char *res, int size)
 	values = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 	if (IS_FLAG(ssl->flags, FLAG_O))
 	{
-		if ((fd = open(ssl->output, O_WRONLY)) == -1)
-			ft_error("No such output file!");
+		if ((fd = open(ssl->output, O_WRONLY | O_TRUNC | O_CREAT)) == -1)
+			ft_fatal_error("No such output file!", 0);
 	}
 	fd = (fd == -1 ? 1 : fd);
-	add = (3 - size % 3);
+	add = (size % 3 == 0 ? 0 : 3 - size % 3);
 	size =(size + add) / 3 * 4;
 	str = ft_strnew(size);
 	i = -1;
@@ -74,19 +74,24 @@ static void	ft_print_cipher(t_ssl *ssl, char *res, int size)
 	while (add-- > 0)
 		str[i++] = '=';
 	write(fd, str, size);
-	write(fd, "\n", 1);
+	if (size < BLOCK_SIZE && IS_FLAG(ssl->flags, FLAG_O))
+		close(fd);
+	if (size < BLOCK_SIZE)
+		write(1, "\n", 1);
 }
 
 void	base64_encode(t_ssl *ssl)
 {
 	t_data		*data;
 	ssize_t		ret;
-	char		buf[900];
+	char		buf[BLOCK_SIZE];
 	char		*res;
 
 	data = (t_data*)(ssl->datalist->content);
-	while ((ret = read_data(data, (uint8_t*)buf, 900)) > 0)
+	while ((ret = read_data(data, (uint8_t*)buf, BLOCK_SIZE)) > 0)
 	{
+		if (ret < BLOCK_SIZE)
+			ret = trim_end(buf, ret);
 		res = process(buf, ret);
 		data->length += ret;
 		ft_print_cipher(ssl, res, ret);
