@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:04:49 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 12:57:22 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	read_args(int ac, char **av)
 	t_dlist	*datalist;
 
 	datalist = NULL;
-	if ((g_ssl = (t_ssl*)malloc(sizeof(t_ssl))) == NULL)
+	if ((g_ssl = init_ssl()) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
 	g_ssl->hash_type = av[1];
 	i = read_flags(ac, av);

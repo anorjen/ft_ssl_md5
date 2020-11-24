@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:55:37 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:08:32 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 13:18:37 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ uint8_t			*sha512_224_calc(t_data *data);
 uint8_t			*sha384_calc(t_data *data);
 
 uint8_t			*sha512_calc(t_data *data, const t_hash *hash_handler);
+t_sha512		*sha512_init(const uint64_t sha_init[]);
 
 /*
 ** sha512_utils.c

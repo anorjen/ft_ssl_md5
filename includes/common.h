@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 19:00:14 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:58:35 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 12:56:56 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void			ft_clean(void);
 
 t_data			*new_data(char *name, int type);
 void			del_data(void *data);
+t_ssl			*init_ssl();
 
 /*
 ** utils.c

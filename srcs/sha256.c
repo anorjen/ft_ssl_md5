@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:03:02 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 13:28:07 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,6 @@ const uint32_t	g_sha224_init[8] = {
 	0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939,
 	0xffc00b31, 0x68581511, 0x64f98fa7, 0xbefa4fa4
 };
-
-static t_sha256		*sha256_init(const uint32_t sha_init[])
-{
-	int			i;
-	t_sha256	*e;
-
-	if ((e = (t_sha256 *)malloc(sizeof(t_sha256))) == NULL)
-		ft_fatal_error("Malloc ERROR!", 0);
-	i = -1;
-	while (++i < 8)
-		e->h[i] = sha_init[i];
-	return (e);
-}
 
 static void			sha256_process_block(t_sha256 *e)
 {
@@ -112,13 +99,28 @@ static uint8_t		*sha256_finish(t_sha256 *e, size_t block_amount)
 	return (hash);
 }
 
+static uint8_t		*align_block(uint8_t *block, ssize_t block_size,
+										ssize_t full_size, ssize_t *align_size)
+{
+	uint8_t		*place;
+	uint8_t		*end;
+
+	if ((place = (uint8_t*)malloc(block_size + 100)) == NULL)
+		return (NULL);
+	ft_memcpy((void*)(place), (void*)(block), block_size);
+	end = append_padding_bits((void*)place, block_size, SHA256_BLOCK_SIZE);
+	end = append_length(end, full_size, SHA256_ENDIAN);
+	*align_size = end - place;
+	return (place);
+}
+
 uint8_t				*sha256_calc(t_data *data, const t_hash *hash_handler)
 {
 	t_sha256	*e;
 	ssize_t		ret;
 	uint8_t		buf[READ_BLOCK_SIZE];
 	uint8_t		*place;
-	uint8_t		*end;
+	ssize_t		align_size;
 
 	e = sha256_init(hash_handler->init_h);
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
@@ -127,14 +129,14 @@ uint8_t				*sha256_calc(t_data *data, const t_hash *hash_handler)
 		data->length += READ_BLOCK_SIZE;
 	}
 	if (ret == -1)
+	{
+		free(e);
 		return (NULL);
+	}
 	data->length += ret;
-	if ((place = (uint8_t*)malloc(ret + 100)) == NULL)
+	if ((place = align_block(buf, ret, data->length, &align_size)) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
-	ft_memcpy((void*)(place), (void*)(buf), ret);
-	end = append_padding_bits((void*)place, ret, hash_handler->block_size);
-	end = append_length(end, data->length, SHA256_ENDIAN);
-	sha256_process(e, place, (end - place));
+	sha256_process(e, place, align_size);
 	free(place);
 	return (sha256_finish(e, hash_handler->block_amount));
 }

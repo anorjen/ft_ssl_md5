@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:56:45 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:02:44 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 13:27:49 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,6 @@ const uint64_t	g_sha512_256_init[8] = {
 	0x963877195940EABD, 0x96283EE2A88EFFE3, 0xBE5E1E2553863992,
 	0x2B0199FC2C85B8AA, 0x0EB72DDC81C52CA2
 };
-
-static t_sha512	*sha512_init(const uint64_t sha_init[])
-{
-	int			i;
-	t_sha512	*e;
-
-	if ((e = (t_sha512 *)malloc(sizeof(t_sha512))) == NULL)
-		ft_fatal_error("Malloc ERROR!", 0);
-	i = -1;
-	while (++i < 8)
-		e->h[i] = sha_init[i];
-	return (e);
-}
 
 static void		sha512_process_block(t_sha512 *e)
 {
@@ -142,13 +129,29 @@ static uint8_t	*sha512_finish(t_sha512 *e, size_t block_amount)
 	return (hash);
 }
 
+static uint8_t	*align_block(uint8_t *block, ssize_t block_size,
+										ssize_t full_size, ssize_t *align_size)
+{
+	uint8_t		*place;
+	uint8_t		*end;
+
+	if ((place = (uint8_t*)malloc(block_size + 150)) == NULL)
+		return (NULL);
+	ft_memcpy((void*)(place), (void*)(block), block_size);
+	end = sha512_append_padding_bits((void*)place, block_size,
+													SHA512_BLOCK_SIZE);
+	end = sha512_append_length(end, full_size, SHA512_ENDIAN);
+	*align_size = end - place;
+	return (place);
+}
+
 uint8_t			*sha512_calc(t_data *data, const t_hash *hash_handler)
 {
 	t_sha512	*e;
 	ssize_t		ret;
 	uint8_t		buf[READ_BLOCK_SIZE];
 	uint8_t		*place;
-	uint8_t		*end;
+	ssize_t		align_size;
 
 	e = sha512_init(hash_handler->init_h);
 	while ((ret = read_data(data, buf, READ_BLOCK_SIZE)) == READ_BLOCK_SIZE)
@@ -159,13 +162,9 @@ uint8_t			*sha512_calc(t_data *data, const t_hash *hash_handler)
 	if (ret == -1)
 		return (NULL);
 	data->length += ret;
-	if ((place = (uint8_t*)malloc(ret + 150)) == NULL)
+	if ((place = align_block(buf, ret, data->length, &align_size)) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
-	ft_memcpy((void*)(place), (void*)(buf), ret);
-	end = sha512_append_padding_bits((void*)place, ret,
-													hash_handler->block_size);
-	end = sha512_append_length(end, data->length, SHA512_ENDIAN);
-	sha512_process(e, place, (end - place));
+	sha512_process(e, place, align_size);
 	free(place);
 	return (sha512_finish(e, hash_handler->block_amount));
 }

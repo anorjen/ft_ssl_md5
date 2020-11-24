@@ -6,13 +6,26 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 13:00:13 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:30:54 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 13:27:24 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sha256.h"
 
-void	sha256_generate_w(uint32_t w[], uint32_t block[])
+t_sha256	*sha256_init(const uint32_t sha_init[])
+{
+	int			i;
+	t_sha256	*e;
+
+	if ((e = (t_sha256 *)malloc(sizeof(t_sha256))) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
+	i = -1;
+	while (++i < 8)
+		e->h[i] = sha_init[i];
+	return (e);
+}
+
+void		sha256_generate_w(uint32_t w[], uint32_t block[])
 {
 	size_t	i;
 

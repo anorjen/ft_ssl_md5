@@ -6,13 +6,27 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 13:00:13 by anorjen           #+#    #+#             */
-/*   Updated: 2020/10/14 18:56:36 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 13:28:41 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sha512.h"
 
-void	*sha512_append_padding_bits(void *input, uint64_t size, int block_size)
+t_sha512	*sha512_init(const uint64_t sha_init[])
+{
+	int			i;
+	t_sha512	*e;
+
+	if ((e = (t_sha512 *)malloc(sizeof(t_sha512))) == NULL)
+		ft_fatal_error("Malloc ERROR!", 0);
+	i = -1;
+	while (++i < 8)
+		e->h[i] = sha_init[i];
+	return (e);
+}
+
+void		*sha512_append_padding_bits(void *input, uint64_t size,
+															int block_size)
 {
 	uint8_t	*end;
 
@@ -27,7 +41,7 @@ void	*sha512_append_padding_bits(void *input, uint64_t size, int block_size)
 	return (end);
 }
 
-void	*sha512_append_length(void *end, uint64_t size, int endian_type)
+void		*sha512_append_length(void *end, uint64_t size, int endian_type)
 {
 	__uint128_t	length;
 
@@ -48,7 +62,7 @@ void	*sha512_append_length(void *end, uint64_t size, int endian_type)
 	return (end);
 }
 
-void	sha512_generate_w(uint64_t w[], uint64_t block[])
+void		sha512_generate_w(uint64_t w[], uint64_t block[])
 {
 	size_t	i;
 
