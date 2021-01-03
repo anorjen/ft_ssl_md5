@@ -18,17 +18,6 @@
 # include "ft_dlist.h"
 # include "common.h"
 
-typedef struct	s_data
-{
-	char		*name;
-	t_input		type;
-	int			fd;
-	char		*hash;
-	char		*error;
-	int			state;
-	uint64_t	length;
-}				t_data;
-
 typedef struct	s_hash
 {
 	char		*name;

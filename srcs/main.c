@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 19:05:39 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/08 16:14:19 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/12/15 16:13:42 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ const t_handler	g_handlers[] = {
 	{"sha512-256", "hash", hash_handler},
 	{"base64", "cipher", base64},
 	// {"des", "cipher", des_cbc},
-	// {"des-ecb", "cipher", des_ecb},
+	{"des-ecb", "cipher", des_ecb},
 	// {"des-cbc", "cipher", des_cbc},
 	{NULL, NULL, NULL}
 };
@@ -34,6 +34,7 @@ static t_ssl	*ssl_init()
 	if ((ssl = (t_ssl*)malloc(sizeof(t_ssl))) == NULL)
 		ft_fatal_error("Malloc ERROR!", 0);
 	ssl->flags = 0;
+	ssl->out_fd = 1;
 	return (ssl);
 }
 

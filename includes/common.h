@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 17:40:49 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/08 16:23:10 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/12/15 16:08:42 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,17 @@ typedef struct	s_handler
 	t_process	process;
 }				t_handler;
 
+typedef struct	s_data
+{
+	char		*name;
+	t_input		type;
+	int			fd;
+	char		*hash;
+	char		*error;
+	int			state;
+	uint64_t	length;
+}				t_data;
+
 typedef struct	s_ssl
 {
 	int				flags;
@@ -68,10 +79,33 @@ typedef struct	s_ssl
 	char			*salt;
 	char			*input;
 	char			*output;
+	int				out_fd;
+	unsigned long	master_key;
+	unsigned long	master_iv;
+	unsigned long	des3_key1;
+	unsigned long	des3_key2;
+	unsigned long	des3_key3;
 	t_dlist			*datalist;
 	const t_handler	*handler;
 }				t_ssl;
 
 t_ssl	*g_ssl;
+
+extern uint8_t	g_pc1_table[];
+extern uint8_t	g_pc2_table[];
+extern uint8_t	g_ip1_table[];
+extern uint8_t	g_ip2_table[];
+extern uint8_t	g_ebit_table[];
+extern uint8_t	g_pperm_table[];
+extern uint8_t	g_left_shifts[];
+extern uint8_t	g_s1_box[];
+extern uint8_t	g_s2_box[];
+extern uint8_t	g_s3_box[];
+extern uint8_t	g_s4_box[];
+extern uint8_t	g_s5_box[];
+extern uint8_t	g_s6_box[];
+extern uint8_t	g_s7_box[];
+extern uint8_t	g_s8_box[];
+extern uint8_t	*g_s_boxes[];
 
 #endif

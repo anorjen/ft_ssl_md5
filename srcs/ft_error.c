@@ -6,7 +6,7 @@
 /*   By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 18:49:13 by anorjen           #+#    #+#             */
-/*   Updated: 2020/11/07 22:13:14 by anorjen          ###   ########.fr       */
+/*   Updated: 2020/11/24 13:53:15 by anorjen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,19 @@ void	usage(void)
 	// write(1, "	-r -- recursive ouput\n", 23);
 	// write(1, "	-s -- calc string hash\n", 24);
 
-	write(1, "Standard commands:\nMessage Digest commands:\n\
+	write(1, "Standard commands:\n\nMessage Digest commands:\n\
 	md5\n\
 	sha256\n\
 	sha224\n\
 	sha512\n\
 	sha384\n\
 	sha512-224\n\
-	sha512-256\n\
-	Cipher commands:\n\
+	sha512-256\n\n\
+Cipher commands:\n\
 	base64\n\
 	des\n\
 	des-ecb\n\
-	des-cbc\n", 180);
+	des-cbc\n", 156);
 	exit(1);
 }
 

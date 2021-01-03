@@ -6,14 +6,15 @@
 #    By: anorjen <anorjen@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/24 15:42:48 by anorjen           #+#    #+#              #
-#    Updated: 2020/11/14 23:23:05 by anorjen          ###   ########.fr        #
+#    Updated: 2020/12/15 16:05:37 by anorjen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ssl
 
 CC = clang
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -g
+# -Wall -Werror -Wextra
 LIBRARIES = -lft -L$(LIBFT_DIRECTORY)
 INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS)
 
@@ -50,7 +51,15 @@ SOURCES_LIST = 	ft_data.c \
 				cipher_args.c \
 				base64.c \
 				base64_encode.c \
-				base64_decode.c
+				base64_decode.c \
+				des.c \
+				des_ecb.c \
+				des_ecb_encrypt.c \
+				des_tables.c \
+				des_utils.c \
+				des_keys.c \
+				text_op.c \
+				stdin_read.c
 
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
