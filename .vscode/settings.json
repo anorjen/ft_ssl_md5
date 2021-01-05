@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"cstdint": "cpp"
+	},
+	"editor.rulers": [
+	80
+	]
+}
